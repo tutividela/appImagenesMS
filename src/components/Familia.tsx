@@ -1,11 +1,12 @@
 import {StyleSheet, Text, View} from 'react-native';
 import {Encuesta} from '../types/types';
+import React from 'react';
 
 type props = {
   familia: Encuesta;
 };
 
-export function Familia({familia}: props): JSX.Element {
+export function Familia({familia}: props): React.JSX.Element {
   return (
     <View style={styles.container}>
       <Text>{familia._id}</Text>
@@ -16,8 +17,8 @@ export function Familia({familia}: props): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'red',
-        margin: 10,
-    }
+  container: {
+    backgroundColor: 'red',
+    margin: 10,
+  },
 });

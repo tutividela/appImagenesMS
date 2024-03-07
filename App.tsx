@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import {Text} from 'react-native';
+import React from 'react';
 import {Encuestas} from './src/screens/Encuestas';
 
 function App(): React.JSX.Element {

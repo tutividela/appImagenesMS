@@ -1,11 +1,11 @@
 import {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
 import {Encuesta} from '../types/types';
 import {Familia} from '../components/Familia';
+import React from 'react';
 
 const url = 'https://backend-appsmoviles.onrender.com/encuestas';
 
-export function Encuestas(): JSX.Element {
+export function Encuestas(): React.JSX.Element {
   const [familias, setFamilias] = useState([]);
 
   const Encuestas = () => (
