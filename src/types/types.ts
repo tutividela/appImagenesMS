@@ -3,7 +3,7 @@ export type Encuesta = {
   apellido: string;
   estado: string;
   encuestaUno: {
-    direccionUno: {
+    direccion: {
       partido: string;
       provincia: string;
       barrio: string;

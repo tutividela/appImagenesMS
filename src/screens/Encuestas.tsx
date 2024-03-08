@@ -7,15 +7,18 @@ import {
   FlatList,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFilter} from '@fortawesome/free-solid-svg-icons';
+import {ModalEncuestas} from '../components/ModalEncuestas';
 
 const url = 'https://backend-appsmoviles.onrender.com/encuestas';
 
 export function Encuestas(): React.JSX.Element {
   const [familias, setFamilias] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch(url)
@@ -24,23 +27,28 @@ export function Encuestas(): React.JSX.Element {
       .catch(err => console.log(err));
   }, []);
 
+  function onHandleShowModal(valor: boolean): void {
+    setShowModal(valor);
+  }
+
   return (
     <View style={styles.contenedor}>
       <View style={styles.cabecera}>
         <Text style={styles.titulo}>Encuestas</Text>
-        <FontAwesomeIcon icon={faFilter} color="blue" size={30} />
+        <TouchableOpacity onPress={() => onHandleShowModal(true)}>
+          <FontAwesomeIcon icon={faFilter} color="#00bfff" size={30} />
+        </TouchableOpacity>
       </View>
+      <ModalEncuestas handleShowModal={onHandleShowModal} showModal={showModal} />
       <View style={styles.cuerpo}>
         {familias.length ? (
           <FlatList
             data={familias}
-            renderItem={({item}) => 
-              <Familia familia={item} key={item._id} />
-            }
+            renderItem={({item}) => <Familia familia={item} key={item._id} />}
             keyExtractor={(item: Encuesta) => item._id}
           />
         ) : (
-          <ActivityIndicator color="blue" />
+          <ActivityIndicator color="#00bfff" size={50} />
         )}
       </View>
     </View>
@@ -58,7 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 2,
-    borderBottomColor: 'grey',
+    borderBottomColor: '#a9a9a9',
   },
   titulo: {
     fontSize: 30,
@@ -66,5 +74,7 @@ const styles = StyleSheet.create({
   },
   cuerpo: {
     flex: 8,
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
 });
