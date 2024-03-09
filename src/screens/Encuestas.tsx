@@ -19,16 +19,49 @@ const url = 'https://backend-appsmoviles.onrender.com/encuestas';
 export function Encuestas(): React.JSX.Element {
   const [familias, setFamilias] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
     fetch(url)
       .then((response: Response) => response.json())
-      .then(jsonData => setFamilias(jsonData))
+      .then(jsonData => {
+        setFamilias(jsonData);
+        setCargando(false);
+      })
       .catch(err => console.log(err));
   }, []);
 
   function onHandleShowModal(valor: boolean): void {
     setShowModal(valor);
+  }
+  function onHandleFiltrarFamilias(encuesta: any): void {
+    let encuestasFiltradas = familias;
+
+    setCargando(true);
+    if (encuesta.apellido) {
+      encuestasFiltradas = encuestasFiltradas.filter(
+        (encuestaFiltrada: Encuesta) =>
+          encuestaFiltrada.apellido === encuesta.apellido,
+      );
+    } else if (encuesta.provincia) {
+      encuestasFiltradas = encuestasFiltradas.filter(
+        (encuestaFiltrada: Encuesta) =>
+          encuestaFiltrada.encuestaUno.direccion.provincia ===
+          encuesta.provincia,
+      );
+    } else if (encuesta.partido) {
+      encuestasFiltradas = encuestasFiltradas.filter(
+        (encuestaFiltrada: Encuesta) =>
+          encuestaFiltrada.encuestaUno.direccion.partido === encuesta.partido,
+      );
+    } else if (encuesta.barrio) {
+      encuestasFiltradas = encuestasFiltradas.filter(
+        (encuestaFiltrada: Encuesta) =>
+          encuestaFiltrada.encuestaUno.direccion.barrio === encuesta.barrio,
+      );
+    }
+    setFamilias(encuestasFiltradas);
+    setCargando(false);
   }
 
   return (
@@ -39,9 +72,13 @@ export function Encuestas(): React.JSX.Element {
           <FontAwesomeIcon icon={faFilter} color="#00bfff" size={30} />
         </TouchableOpacity>
       </View>
-      <ModalEncuestas handleShowModal={onHandleShowModal} showModal={showModal} />
+      <ModalEncuestas
+        handleShowModal={onHandleShowModal}
+        showModal={showModal}
+        handleFiltrarFamilias={onHandleFiltrarFamilias}
+      />
       <View style={styles.cuerpo}>
-        {familias.length ? (
+        {!cargando ? (
           <FlatList
             data={familias}
             renderItem={({item}) => <Familia familia={item} key={item._id} />}
@@ -75,6 +112,6 @@ const styles = StyleSheet.create({
   cuerpo: {
     flex: 8,
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 });
