@@ -1,4 +1,4 @@
-import {Button, Modal, Pressable, StyleSheet, View} from 'react-native';
+import {Button, Modal, Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import {FiltroEncuesta} from './FiltroEncuesta';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faClose} from '@fortawesome/free-solid-svg-icons';
@@ -36,7 +36,7 @@ export function ModalEncuestas({
       transparent
       visible={showModal}
       onRequestClose={() => handleShowModal(false)}>
-      <View style={styles.contenedorModal}>
+      <ScrollView style={styles.contenedorModal}>
         <Pressable
           onPress={() => handleShowModal(false)}
           style={styles.iconoCerrar}>
@@ -54,7 +54,7 @@ export function ModalEncuestas({
         <View style={styles.contenedorBotones}>
           <Button title="buscar" onPress={() => filtrarFamilias()} />
         </View>
-      </View>
+      </ScrollView>
     </Modal>
   );
 }
