@@ -67,8 +67,9 @@ export function Encuestas(): React.JSX.Element {
   return (
     <View style={styles.contenedor}>
       <View style={styles.cabecera}>
-        <Text style={styles.titulo}>Encuestas</Text>
-        <TouchableOpacity onPress={() => onHandleShowModal(true)}>
+        <TouchableOpacity
+          onPress={() => onHandleShowModal(true)}
+          style={styles.icono}>
           <FontAwesomeIcon icon={faFilter} color="#00bfff" size={30} />
         </TouchableOpacity>
       </View>
@@ -99,15 +100,13 @@ const styles = StyleSheet.create({
   },
   cabecera: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     borderBottomWidth: 2,
-    borderBottomColor: '#a9a9a9',
+    borderBottomColor: '#c0c0c0',
   },
-  titulo: {
-    fontSize: 30,
-    fontWeight: 'bold',
+  icono: {
+    flex: 1,
+    justifyContent: 'center',
   },
   cuerpo: {
     flex: 8,
