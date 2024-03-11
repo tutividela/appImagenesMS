@@ -1,4 +1,4 @@
-import {Image, StyleSheet, View} from 'react-native';
+import {Alert, Image, StyleSheet, View} from 'react-native';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
 
 GoogleSignin.configure({
@@ -11,7 +11,7 @@ export function Inicio({navigation}: any): JSX.Element {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-
+      
       navigation.navigate('Encuestas');
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -19,9 +19,9 @@ export function Inicio({navigation}: any): JSX.Element {
       } else if (error.code === statusCodes.IN_PROGRESS) {
         console.log('Signing in');
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log('Play services not available');
+        Alert.alert('Play services not available');
       } else {
-        console.log('Some other error happened');
+        Alert.alert(error.code);
         console.log(error.message);
         console.log(error.code);
       }

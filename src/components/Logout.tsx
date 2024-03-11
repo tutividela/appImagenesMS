@@ -15,12 +15,13 @@ export function Logout(): JSX.Element {
 
   return (
     <TouchableOpacity onPress={signOut}>
-        <FontAwesomeIcon icon={faSignOut} style={styles.logout}/>
+        <FontAwesomeIcon icon={faSignOut} style={styles.logout} size={20}/>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
     logout: {
+      color: '#00bfff',
     }
 });
