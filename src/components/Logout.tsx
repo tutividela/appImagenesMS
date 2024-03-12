@@ -2,11 +2,16 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { storage } from '../utils/mmkv';
 
 export function Logout(): JSX.Element {
   const signOut = async () => {
     try {
       await GoogleSignin.signOut();
+
+      storage.removeItem('usuario');
+      storage.removeItem('urlFoto');
+      storage.removeItem('idtoken');
       console.log('Usuario se deslogueo');
     } catch (error) {
       console.error(error);

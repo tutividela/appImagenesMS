@@ -1,18 +1,32 @@
 import {Alert, Image, StyleSheet, View} from 'react-native';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {useMMKVStorage} from 'react-native-mmkv-storage';
+import {storage} from '../utils/mmkv';
 
 GoogleSignin.configure({
-	webClientId: '612735597766-0qp95uj4g2iker36m7uskju41oti3sre.apps.googleusercontent.com',
-	scopes: ['profile', 'email'],
-})
+  webClientId:
+    '612735597766-0qp95uj4g2iker36m7uskju41oti3sre.apps.googleusercontent.com',
+  scopes: ['profile', 'email'],
+});
 
 export function Inicio({navigation}: any): JSX.Element {
   const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      
+      const {
+        user: {name, photo},
+        idToken,
+      } = await GoogleSignin.signIn();
+
+      storage.setString('idtoken', idToken!);
+      storage.setString('usuario', name!);
+      storage.setString('urlFoto', photo!);
       navigation.navigate('Encuestas');
+
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('User cancelled the login flow');

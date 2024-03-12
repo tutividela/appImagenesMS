@@ -11,7 +11,7 @@ function App(): React.JSX.Element {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Inicio" component={Inicio} initialParams={{titulo: 'hola'}} options={{headerRight: () => (<Logout />)}} />
+        <Stack.Screen name="Inicio" component={Inicio} initialParams={{titulo: 'hola'}} />
         <Stack.Screen name="Encuestas" component={Encuestas} options={{headerRight: () => (<Logout />)}}/>
       </Stack.Navigator>
     </NavigationContainer>
