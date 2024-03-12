@@ -13,6 +13,7 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFilter} from '@fortawesome/free-solid-svg-icons';
 import {ModalEncuestas} from '../components/ModalEncuestas';
+import {storage} from '../utils/mmkv';
 
 const url = 'https://backend-appsmoviles.onrender.com/encuestas';
 
@@ -20,9 +21,10 @@ export function Encuestas(): React.JSX.Element {
   const [familias, setFamilias] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [cargando, setCargando] = useState(true);
+  const idtoken = storage.getString('idtoken');
 
   useEffect(() => {
-    fetch(url)
+    fetch(url, {headers: {idtoken}})
       .then((response: Response) => response.json())
       .then(jsonData => {
         setFamilias(jsonData);
