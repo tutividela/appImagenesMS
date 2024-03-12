@@ -3,8 +3,11 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { storage } from '../utils/mmkv';
+import { useContext, useState } from 'react';
+import { Context } from '../utils/context';
 
 export function Logout(): JSX.Element {
+  const {setEstaLogueado} = useContext(Context);
   const signOut = async () => {
     try {
       await GoogleSignin.signOut();
@@ -13,6 +16,7 @@ export function Logout(): JSX.Element {
       storage.removeItem('urlFoto');
       storage.removeItem('idtoken');
       console.log('Usuario se deslogueo');
+      setEstaLogueado(false);
     } catch (error) {
       console.error(error);
     }

@@ -4,8 +4,9 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {useMMKVStorage} from 'react-native-mmkv-storage';
 import {storage} from '../utils/mmkv';
+import { useContext } from 'react';
+import { Context } from '../utils/context';
 
 GoogleSignin.configure({
   webClientId:
@@ -13,7 +14,8 @@ GoogleSignin.configure({
   scopes: ['profile', 'email'],
 });
 
-export function Inicio({navigation}: any): JSX.Element {
+export function Inicio(): JSX.Element {
+  const {setEstaLogueado} = useContext(Context);
   const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
@@ -25,7 +27,7 @@ export function Inicio({navigation}: any): JSX.Element {
       storage.setString('idtoken', idToken!);
       storage.setString('usuario', name!);
       storage.setString('urlFoto', photo!);
-      navigation.navigate('Encuestas');
+      setEstaLogueado(true);
 
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
