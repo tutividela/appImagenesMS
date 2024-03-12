@@ -14,21 +14,23 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFilter} from '@fortawesome/free-solid-svg-icons';
 import {ModalEncuestas} from '../components/ModalEncuestas';
 import {storage} from '../utils/mmkv';
+import { setCargandoEncuestas, setEncuestas } from '../store/slices/encuestasSlice';
+import { useAppDispatch, useAppSelector } from '../utils/hooks';
 
 const url = 'https://backend-appsmoviles.onrender.com/encuestas';
 
 export function Encuestas(): React.JSX.Element {
-  const [familias, setFamilias] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [cargando, setCargando] = useState(true);
   const idtoken = storage.getString('idtoken');
+  const dispatch = useAppDispatch();
+  const {cargandoEncuestas, encuestas} = useAppSelector((state) => state.encuestas);
 
   useEffect(() => {
     fetch(url, {headers: {idtoken}})
       .then((response: Response) => response.json())
       .then(jsonData => {
-        setFamilias(jsonData);
-        setCargando(false);
+        dispatch(setEncuestas(jsonData));
+        dispatch(setCargandoEncuestas(true));
       })
       .catch(err => console.log(err));
   }, []);
@@ -37,9 +39,9 @@ export function Encuestas(): React.JSX.Element {
     setShowModal(valor);
   }
   function onHandleFiltrarFamilias(encuesta: any): void {
-    let encuestasFiltradas = familias;
+    let encuestasFiltradas = encuestas;
 
-    setCargando(true);
+    dispatch(setCargandoEncuestas(false));
     if (encuesta.apellido) {
       encuestasFiltradas = encuestasFiltradas.filter(
         (encuestaFiltrada: Encuesta) =>
@@ -62,8 +64,8 @@ export function Encuestas(): React.JSX.Element {
           encuestaFiltrada.encuestaUno.direccion.barrio === encuesta.barrio,
       );
     }
-    setFamilias(encuestasFiltradas);
-    setCargando(false);
+    dispatch(setEncuestas(encuestasFiltradas));
+    dispatch(setCargandoEncuestas(true));
   }
 
   return (
@@ -81,9 +83,9 @@ export function Encuestas(): React.JSX.Element {
         handleFiltrarFamilias={onHandleFiltrarFamilias}
       />
       <View style={styles.cuerpo}>
-        {!cargando ? (
+        {cargandoEncuestas ? (
           <FlatList
-            data={familias}
+            data={encuestas}
             renderItem={({item}) => <Familia familia={item} key={item._id} />}
             keyExtractor={(item: Encuesta) => item._id}
           />

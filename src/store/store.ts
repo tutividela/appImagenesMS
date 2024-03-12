@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import customReducer from './slices/customSlice';
+import encuestasReducer from './slices/encuestasSlice';
 
 export const store = configureStore({
   reducer: {
-    custom: customReducer
+    custom: customReducer,
+    encuestas: encuestasReducer,
   },
 });
 
