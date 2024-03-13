@@ -18,16 +18,14 @@ function App(): React.JSX.Element {
         <NavigationContainer>
           <Stack.Navigator>
             {!estaLogueado ? (
-              <Stack.Screen
-                name="Inicio"
-                component={Inicio}
-                options={{headerRight: () => <Logout />}}
-              />
+              <Stack.Screen name="Inicio" component={Inicio} />
             ) : (
               <Stack.Screen
                 name="Encuestas"
                 component={Encuestas}
-                options={{headerRight: () => <Logout />}}
+                options={{
+                  headerRight: () => <Logout />,
+                }}
               />
             )}
           </Stack.Navigator>
