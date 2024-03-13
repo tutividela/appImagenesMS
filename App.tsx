@@ -1,20 +1,37 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import {Encuestas} from './src/screens/Encuestas';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {Inicio} from './src/screens/Inicio';
-import { Logout } from './src/components/Logout';
+import {Logout} from './src/components/Logout';
+import {Provider} from 'react-redux';
+import {store} from './src/store/store';
+import {Context} from './src/utils/context';
 
 function App(): React.JSX.Element {
   const Stack = createNativeStackNavigator();
+  const [estaLogueado, setEstaLogueado] = useState(false);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Inicio" component={Inicio} initialParams={{titulo: 'hola'}} />
-        <Stack.Screen name="Encuestas" component={Encuestas} options={{headerRight: () => (<Logout />)}}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Context.Provider value={{estaLogueado, setEstaLogueado}}>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            {!estaLogueado ? (
+              <Stack.Screen name="Inicio" component={Inicio} />
+            ) : (
+              <Stack.Screen
+                name="Encuestas"
+                component={Encuestas}
+                options={{
+                  headerRight: () => <Logout />,
+                }}
+              />
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
+    </Context.Provider>
   );
 }
 export default App;

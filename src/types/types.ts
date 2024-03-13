@@ -10,3 +10,7 @@ export type Encuesta = {
     };
   };
 };
+
+export type Custom = {
+  estaLogueado: boolean;
+}
