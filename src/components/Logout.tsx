@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { storage } from '../utils/mmkv';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { Context } from '../utils/context';
 
 export function Logout(): JSX.Element {
@@ -32,5 +32,5 @@ export function Logout(): JSX.Element {
 const styles = StyleSheet.create({
     logout: {
       color: '#00bfff',
-    }
+    },
 });

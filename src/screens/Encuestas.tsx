@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
   FlatList,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -19,7 +18,7 @@ import { useAppDispatch, useAppSelector } from '../utils/hooks';
 
 const url = 'https://backend-appsmoviles.onrender.com/encuestas';
 
-export function Encuestas(): React.JSX.Element {
+export function Encuestas({navigation}: any): React.JSX.Element {
   const [showModal, setShowModal] = useState(false);
   const idtoken = storage.getString('idtoken');
   const dispatch = useAppDispatch();
@@ -34,6 +33,10 @@ export function Encuestas(): React.JSX.Element {
       })
       .catch(err => console.log(err));
   }, []);
+
+  function onHandleMagnify(): void {
+    navigation.navigate('FotosDeFamilia');
+  }
 
   function onHandleShowModal(valor: boolean): void {
     setShowModal(valor);
@@ -86,7 +89,7 @@ export function Encuestas(): React.JSX.Element {
         {cargandoEncuestas ? (
           <FlatList
             data={encuestas}
-            renderItem={({item}) => <Familia familia={item} key={item._id} />}
+            renderItem={({item}) => <Familia familia={item} key={item._id} handleMagnify={onHandleMagnify} />}
             keyExtractor={(item: Encuesta) => item._id}
           />
         ) : (

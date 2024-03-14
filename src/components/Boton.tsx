@@ -6,7 +6,7 @@ type props = {
   titulo: string;
   style: any;
   onPress: Function;
-  nombreDeIcono?: IconDefinition
+  nombreDeIcono?: IconDefinition;
 };
 
 export function Boton({titulo, style, onPress, nombreDeIcono}: props): JSX.Element {

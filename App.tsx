@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useState} from 'react';
 import {Encuestas} from './src/screens/Encuestas';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
@@ -7,6 +7,7 @@ import {Logout} from './src/components/Logout';
 import {Provider} from 'react-redux';
 import {store} from './src/store/store';
 import {Context} from './src/utils/context';
+import {FotosDeFamilia} from './src/screens/FotosDeFamilia';
 
 function App(): React.JSX.Element {
   const Stack = createNativeStackNavigator();
@@ -20,13 +21,20 @@ function App(): React.JSX.Element {
             {!estaLogueado ? (
               <Stack.Screen name="Inicio" component={Inicio} />
             ) : (
-              <Stack.Screen
-                name="Encuestas"
-                component={Encuestas}
-                options={{
-                  headerRight: () => <Logout />,
-                }}
-              />
+              <>
+                <Stack.Screen
+                  name="Encuestas"
+                  component={Encuestas}
+                  options={{
+                    headerRight: () => <Logout />,
+                  }}
+                />
+                <Stack.Screen
+                  name="FotosDeFamilia"
+                  component={FotosDeFamilia}
+                  options={{headerRight: () => <Logout />}}
+                />
+              </>
             )}
           </Stack.Navigator>
         </NavigationContainer>

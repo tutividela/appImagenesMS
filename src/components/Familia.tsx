@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Encuesta} from '../types/types';
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -6,9 +6,10 @@ import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
 
 type props = {
   familia: Encuesta;
+  handleMagnify: Function;
 };
 
-export function Familia({familia}: props): React.JSX.Element {
+export function Familia({familia, handleMagnify}: props): React.JSX.Element {
   const {partido, provincia, barrio} = familia.encuestaUno.direccion;
 
   return (
@@ -30,9 +31,9 @@ export function Familia({familia}: props): React.JSX.Element {
           Barrio: <Text style={styles.valor}>{barrio}</Text>
         </Text>
       </View>
-      <View>
+      <TouchableOpacity onPress={() => handleMagnify()}>
         <FontAwesomeIcon icon={faArrowRight} color="#00bfff" size={32} />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
