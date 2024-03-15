@@ -5,8 +5,8 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import {storage} from '../utils/mmkv';
-import { useContext } from 'react';
-import { Context } from '../utils/context';
+import {useContext} from 'react';
+import {Context} from '../utils/context';
 
 GoogleSignin.configure({
   webClientId:
@@ -28,7 +28,6 @@ export function Inicio(): JSX.Element {
       storage.setString('usuario', name!);
       storage.setString('urlFoto', photo!);
       setEstaLogueado(true);
-
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('User cancelled the login flow');

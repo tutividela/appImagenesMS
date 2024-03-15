@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import {configureStore} from '@reduxjs/toolkit';
 import customReducer from './slices/customSlice';
 import encuestasReducer from './slices/encuestasSlice';
 

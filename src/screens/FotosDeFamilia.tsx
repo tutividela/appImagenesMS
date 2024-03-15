@@ -1,23 +1,34 @@
 import {faCirclePlus, faCaretDown} from '@fortawesome/free-solid-svg-icons';
-import {faAdd} from '@fortawesome/free-solid-svg-icons/faAdd';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Foto} from '../components/Foto';
 import {Boton} from '../components/Boton';
+import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import { setCategoriaActual, setShowModal } from '../store/slices/customSlice';
+import { ModalCategorias } from '../components/ModalCategorias';
 
-export function FotosDeFamilia(): JSX.Element {
+export function FotosDeFamilia({navigation, route}: any): JSX.Element {
+  const {idFamilia, apellido} = route.params;
+  const {categoriaActual} = useAppSelector((state) => state.custom);
+  const dispatch = useAppDispatch();
+  
+  function handleShowModal() {
+    dispatch(setShowModal(true));
+  }
+
   return (
     <View style={styles.contenedor}>
       <View style={styles.cabecera}>
-        <Text style={styles.titulo}>Familia: </Text>
+        <Text style={styles.titulo}>{apellido}</Text>
         <TouchableOpacity>
           <FontAwesomeIcon icon={faCirclePlus} color="#00bfff" size={30} />
         </TouchableOpacity>
       </View>
+      <ModalCategorias />
       <View style={styles.contenedorSelector}>
         <Boton
-          titulo="Categoria"
-          onPress={() => console.log('tengo que desplegar el modal')}
+          titulo={categoriaActual}
+          onPress={() => handleShowModal()}
           style={styles.selector}
           nombreDeIcono={faCaretDown}
         />

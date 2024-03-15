@@ -1,4 +1,4 @@
-import { faClose } from '@fortawesome/free-solid-svg-icons';
+import {faClose} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   Button,
@@ -6,31 +6,39 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
+import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import { setShowModal } from '../store/slices/customSlice';
+import { categorias } from '../types/types';
+import { ItemCategoria } from './ItemCategoria';
+import { Boton } from './Boton';
 
-type props = {
-  showModal: boolean;
-  handleShowModal: Function;
-  handleFiltrarCategorias: Function;
-};
+export function ModalCategorias(): JSX.Element {
+  const {showModal} = useAppSelector((state) => state.custom);
+  const dispatch = useAppDispatch();
 
-export function ModalCategorias({showModal, handleShowModal,}: props): JSX.Element {
+  function handleCloseModal() {
+    dispatch(setShowModal(false));
+  }
+
   return (
     <Modal
       animationType="slide"
       transparent
       visible={showModal}
-      onRequestClose={() => handleShowModal(false)}>
+      onRequestClose={() => handleCloseModal()}>
       <ScrollView style={styles.contenedorModal}>
         <Pressable
-          onPress={() => handleShowModal(false)}
+          onPress={() => handleCloseModal()}
           style={styles.iconoCerrar}>
           <FontAwesomeIcon icon={faClose} size={23} />
         </Pressable>
-        <View style={styles.contenedorCategorias}></View>
-        <View style={styles.contenedorBotones}>
-          <Button title="buscar" onPress={() => console.log('aca tengo que cerrar el modal')} />
+        <View style={styles.contenedorCategorias}>
+          <ScrollView>
+            {categorias.map((categoria: string, index: number) => <ItemCategoria nombre={categoria} key={index} />)}
+          </ScrollView>
         </View>
       </ScrollView>
     </Modal>
@@ -38,32 +46,32 @@ export function ModalCategorias({showModal, handleShowModal,}: props): JSX.Eleme
 }
 
 const styles = StyleSheet.create({
-    contenedorModal: {
-        flex: 1,
-        flexDirection: 'column',
-        margin: 20,
-        backgroundColor: 'white',
-        borderRadius: 10,
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-      },
-      iconoCerrar: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        margin: 5,
-      },
-      contenedorCategorias: {
-        padding: 35,
-        paddingTop: 10,
-      },
-      contenedorBotones: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-      },
+  contenedorModal: {
+    flex: 1,
+    flexDirection: 'column',
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  iconoCerrar: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    margin: 5,
+  },
+  contenedorCategorias: {
+    padding: 25,
+    paddingTop: 10,
+  },
+  contenedorBotones: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
 });

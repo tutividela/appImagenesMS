@@ -13,8 +13,11 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faFilter} from '@fortawesome/free-solid-svg-icons';
 import {ModalEncuestas} from '../components/ModalEncuestas';
 import {storage} from '../utils/mmkv';
-import { setCargandoEncuestas, setEncuestas } from '../store/slices/encuestasSlice';
-import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import {
+  setCargandoEncuestas,
+  setEncuestas,
+} from '../store/slices/encuestasSlice';
+import {useAppDispatch, useAppSelector} from '../utils/hooks';
 
 const url = 'https://backend-appsmoviles.onrender.com/encuestas';
 
@@ -22,7 +25,9 @@ export function Encuestas({navigation}: any): React.JSX.Element {
   const [showModal, setShowModal] = useState(false);
   const idtoken = storage.getString('idtoken');
   const dispatch = useAppDispatch();
-  const {cargandoEncuestas, encuestas} = useAppSelector((state) => state.encuestas);
+  const {cargandoEncuestas, encuestas} = useAppSelector(
+    state => state.encuestas,
+  );
 
   useEffect(() => {
     fetch(url, {headers: {idtoken}})
@@ -34,8 +39,8 @@ export function Encuestas({navigation}: any): React.JSX.Element {
       .catch(err => console.log(err));
   }, []);
 
-  function onHandleMagnify(): void {
-    navigation.navigate('FotosDeFamilia');
+  function onHandleMagnify(idFamilia: string, apellido: string): void {
+    navigation.navigate('FotosDeFamilia', {idFamilia: idFamilia, apellido: apellido});
   }
 
   function onHandleShowModal(valor: boolean): void {
@@ -89,7 +94,13 @@ export function Encuestas({navigation}: any): React.JSX.Element {
         {cargandoEncuestas ? (
           <FlatList
             data={encuestas}
-            renderItem={({item}) => <Familia familia={item} key={item._id} handleMagnify={onHandleMagnify} />}
+            renderItem={({item}) => (
+              <Familia
+                familia={item}
+                key={item._id}
+                handleMagnify={onHandleMagnify}
+              />
+            )}
             keyExtractor={(item: Encuesta) => item._id}
           />
         ) : (

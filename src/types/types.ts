@@ -12,7 +12,8 @@ export type Encuesta = {
 };
 
 export type Custom = {
-  estaLogueado: boolean;
+  showModal: boolean;
+  categoriaActual: string;
 };
 
 export const categorias: string[] = [

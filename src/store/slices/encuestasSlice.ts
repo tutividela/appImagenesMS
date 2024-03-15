@@ -13,8 +13,8 @@ export const encuestasSlice = createSlice({
       state.encuestas = action.payload;
     },
     setCargandoEncuestas: (state, action: PayloadAction<boolean>) => {
-        state.cargandoEncuestas = action.payload;
-      },
+      state.cargandoEncuestas = action.payload;
+    },
   },
 });
 

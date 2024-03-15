@@ -1,6 +1,10 @@
-import { faDownload, faLocationDot, faLocationPin, faMarker, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {
+  faDownload,
+  faLocationDot,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {Image, StyleSheet, View} from 'react-native';
 
 export function Foto(): JSX.Element {
   return (
@@ -12,9 +16,9 @@ export function Foto(): JSX.Element {
         />
       </View>
       <View style={styles.contenedorIconos}>
-        <FontAwesomeIcon icon={faTrash} size={30} color='#b22222'/>
-        <FontAwesomeIcon icon={faLocationDot} size={30} color='#1e90ff'/>
-        <FontAwesomeIcon icon={faDownload} size={30} color='#808080'/>
+        <FontAwesomeIcon icon={faTrash} size={30} color="#b22222" />
+        <FontAwesomeIcon icon={faLocationDot} size={30} color="#1e90ff" />
+        <FontAwesomeIcon icon={faDownload} size={30} color="#808080" />
       </View>
     </View>
   );
@@ -30,11 +34,11 @@ const styles = StyleSheet.create({
   },
   imagen: {
     height: '100%',
-    width: '100%'
+    width: '100%',
   },
   contenedorIconos: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
-  }
+  },
 });
