@@ -3,15 +3,15 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Foto} from '../components/Foto';
 import {Boton} from '../components/Boton';
-import { useAppDispatch, useAppSelector } from '../utils/hooks';
-import { setCategoriaActual, setShowModal } from '../store/slices/customSlice';
-import { ModalCategorias } from '../components/ModalCategorias';
+import {useAppDispatch, useAppSelector} from '../utils/hooks';
+import {setShowModal} from '../store/slices/customSlice';
+import {ModalCategorias} from '../components/ModalCategorias';
 
 export function FotosDeFamilia({navigation, route}: any): JSX.Element {
   const {idFamilia, apellido} = route.params;
-  const {categoriaActual} = useAppSelector((state) => state.custom);
+  const {categoriaActual} = useAppSelector(state => state.custom);
   const dispatch = useAppDispatch();
-  
+
   function handleShowModal() {
     dispatch(setShowModal(true));
   }

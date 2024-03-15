@@ -8,6 +8,7 @@ import {Provider} from 'react-redux';
 import {store} from './src/store/store';
 import {Context} from './src/utils/context';
 import {FotosDeFamilia} from './src/screens/FotosDeFamilia';
+import {Usuario} from './src/components/Usuario';
 
 function App(): React.JSX.Element {
   const Stack = createNativeStackNavigator();
@@ -27,12 +28,16 @@ function App(): React.JSX.Element {
                   component={Encuestas}
                   options={{
                     headerRight: () => <Logout />,
+                    headerTitle: () => <Usuario />,
                   }}
                 />
                 <Stack.Screen
                   name="FotosDeFamilia"
                   component={FotosDeFamilia}
-                  options={{headerRight: () => <Logout />}}
+                  options={{
+                    headerRight: () => <Logout />,
+                    headerTitle: () => <Usuario />,
+                  }}
                 />
               </>
             )}

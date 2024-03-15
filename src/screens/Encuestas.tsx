@@ -40,7 +40,10 @@ export function Encuestas({navigation}: any): React.JSX.Element {
   }, []);
 
   function onHandleMagnify(idFamilia: string, apellido: string): void {
-    navigation.navigate('FotosDeFamilia', {idFamilia: idFamilia, apellido: apellido});
+    navigation.navigate('FotosDeFamilia', {
+      idFamilia: idFamilia,
+      apellido: apellido,
+    });
   }
 
   function onHandleShowModal(valor: boolean): void {

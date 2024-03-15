@@ -1,22 +1,19 @@
 import {faClose} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
-  Button,
   Modal,
   Pressable,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
-import { useAppDispatch, useAppSelector } from '../utils/hooks';
-import { setShowModal } from '../store/slices/customSlice';
-import { categorias } from '../types/types';
-import { ItemCategoria } from './ItemCategoria';
-import { Boton } from './Boton';
+import {useAppDispatch, useAppSelector} from '../utils/hooks';
+import {setShowModal} from '../store/slices/customSlice';
+import {categorias} from '../types/types';
+import {ItemCategoria} from './ItemCategoria';
 
 export function ModalCategorias(): JSX.Element {
-  const {showModal} = useAppSelector((state) => state.custom);
+  const {showModal} = useAppSelector(state => state.custom);
   const dispatch = useAppDispatch();
 
   function handleCloseModal() {
@@ -37,7 +34,9 @@ export function ModalCategorias(): JSX.Element {
         </Pressable>
         <View style={styles.contenedorCategorias}>
           <ScrollView>
-            {categorias.map((categoria: string, index: number) => <ItemCategoria nombre={categoria} key={index} />)}
+            {categorias.map((categoria: string, index: number) => (
+              <ItemCategoria nombre={categoria} key={index} />
+            ))}
           </ScrollView>
         </View>
       </ScrollView>

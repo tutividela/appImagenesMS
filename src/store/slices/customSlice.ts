@@ -3,7 +3,7 @@ import {Custom} from '../../types/types';
 
 const initialState: Custom = {
   showModal: false,
-  categoriaActual: 'PreCC_croquisE1'
+  categoriaActual: 'PreCC_croquisE1',
 };
 
 export const customSlice = createSlice({

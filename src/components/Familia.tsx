@@ -31,7 +31,8 @@ export function Familia({familia, handleMagnify}: props): React.JSX.Element {
           Barrio: <Text style={styles.valor}>{barrio}</Text>
         </Text>
       </View>
-      <TouchableOpacity onPress={() => handleMagnify(familia._id, familia.apellido)}>
+      <TouchableOpacity
+        onPress={() => handleMagnify(familia._id, familia.apellido)}>
         <FontAwesomeIcon icon={faArrowRight} color="#00bfff" size={32} />
       </TouchableOpacity>
     </View>
