@@ -31,6 +31,10 @@ export function FotosDeFamilia({navigation, route}: any): JSX.Element {
     dispatch(buscarFotos(idFamilia, categoriaActual));
   }, []);
 
+  useEffect(() => {
+    dispatch(buscarFotos(idFamilia, categoriaActual));
+  }, [categoriaActual]);
+
   return (
     <View style={styles.contenedor}>
       <View style={styles.cabecera}>
@@ -59,7 +63,9 @@ export function FotosDeFamilia({navigation, route}: any): JSX.Element {
             )}
           />
         ) : (
-          <Text>No hay fotos</Text>
+          <View style={styles.contenedorNoHayFotos}>
+            <Text style={styles.tituloNoHayFotos}>No hay fotos</Text>
+          </View>
         )}
       </View>
     </View>
@@ -84,9 +90,8 @@ const styles = StyleSheet.create({
   },
   cuerpo: {
     flex: 8,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: 'green'
   },
   contenedorSelector: {
     padding: 10,
@@ -95,5 +100,12 @@ const styles = StyleSheet.create({
   selector: {
     backgroundColor: '#00bfff',
     borderRadius: 5,
+  },
+  contenedorNoHayFotos: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  tituloNoHayFotos: {
+    fontSize: 20,
   },
 });
