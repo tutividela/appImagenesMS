@@ -1,16 +1,16 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Encuesta} from '../types/types';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Encuesta } from '../types/types';
 import React from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 type props = {
   familia: Encuesta;
   handleMagnify: Function;
 };
 
-export function Familia({familia, handleMagnify}: props): React.JSX.Element {
-  const {partido, provincia, barrio} = familia.encuestaUno.direccion;
+export function Familia({ familia, handleMagnify }: props): React.JSX.Element {
+  const { partido, provincia, barrio } = familia.encuestaUno.direccion;
 
   return (
     <View style={styles.container}>
@@ -32,7 +32,8 @@ export function Familia({familia, handleMagnify}: props): React.JSX.Element {
         </Text>
       </View>
       <TouchableOpacity
-        onPress={() => handleMagnify(familia._id, familia.apellido)}>
+        onPress={() => handleMagnify(familia._id, familia.apellido)}
+      >
         <FontAwesomeIcon icon={faArrowRight} color="#00bfff" size={32} />
       </TouchableOpacity>
     </View>

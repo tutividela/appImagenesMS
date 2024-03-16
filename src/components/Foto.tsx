@@ -3,36 +3,39 @@ import {
   faLocationDot,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {useEffect, useRef} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
-import {Animated} from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useEffect, useRef } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Animated } from 'react-native';
 
 type props = {
   url: string;
 };
 
-export function Foto({url}: props): JSX.Element {
+export function Foto({ url }: props): JSX.Element {
   const dimensionValueAnimation = useRef(new Animated.Value(0)).current;
   const opacityValueAnimation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.parallel([
-      Animated.timing(dimensionValueAnimation, {
-        toValue: 300,
-        duration: 700,
-        useNativeDriver: false,
-      }),
+    Animated.parallel(
+      [
+        Animated.timing(dimensionValueAnimation, {
+          toValue: 300,
+          duration: 700,
+          useNativeDriver: false,
+        }),
 
-      Animated.timing(opacityValueAnimation, {
-        toValue: 1,
-        duration: 500,
-        delay: 500,
-        useNativeDriver: false,
-      }),
-    ], {
-      stopTogether: false,
-    }).start();
+        Animated.timing(opacityValueAnimation, {
+          toValue: 1,
+          duration: 500,
+          delay: 500,
+          useNativeDriver: false,
+        }),
+      ],
+      {
+        stopTogether: false,
+      },
+    ).start();
   }, [dimensionValueAnimation]);
 
   return (
@@ -48,7 +51,9 @@ export function Foto({url}: props): JSX.Element {
           }}
         />
       </View>
-      <Animated.View style={{...styles.contenedorIconos, opacity: opacityValueAnimation}}>
+      <Animated.View
+        style={{ ...styles.contenedorIconos, opacity: opacityValueAnimation }}
+      >
         <FontAwesomeIcon icon={faTrash} size={30} color="#b22222" />
         <FontAwesomeIcon icon={faLocationDot} size={30} color="#1e90ff" />
         <FontAwesomeIcon icon={faDownload} size={30} color="#808080" />
@@ -61,6 +66,7 @@ const styles = StyleSheet.create({
   contenedor: {
     flex: 1,
     flexDirection: 'column',
+    paddingHorizontal: 20,
   },
   contenedorImagen: {
     flex: 1,

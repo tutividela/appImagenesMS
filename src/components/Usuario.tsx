@@ -1,12 +1,12 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {storage} from '../utils/mmkv';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { storage } from '../utils/mmkv';
 
 export function Usuario(): JSX.Element {
   const usuario = storage.getString('usuario');
   const urlFotoDePerfil = storage.getString('urlFoto');
   return (
     <View style={styles.contenedor}>
-      <Image source={{uri: urlFotoDePerfil}} style={styles.imagen} />
+      <Image source={{ uri: urlFotoDePerfil }} style={styles.imagen} />
       <Text style={styles.usuario}>{usuario}</Text>
     </View>
   );

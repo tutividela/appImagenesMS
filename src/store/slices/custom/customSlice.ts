@@ -1,10 +1,9 @@
-import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 type Custom = {
   showModal: boolean;
   cargando: boolean;
   categoriaActual: string;
-
 };
 
 const initialState: Custom = {
@@ -29,5 +28,6 @@ export const customSlice = createSlice({
   },
 });
 
-export const {setShowModal, setCategoriaActual, setCargando} = customSlice.actions;
+export const { setShowModal, setCategoriaActual, setCargando } =
+  customSlice.actions;
 export default customSlice.reducer;

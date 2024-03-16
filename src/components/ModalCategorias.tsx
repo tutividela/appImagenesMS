@@ -1,19 +1,13 @@
-import {faClose} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  Modal,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
-import {useAppDispatch, useAppSelector} from '../utils/hooks';
-import {setShowModal} from '../store/slices/custom/customSlice';
-import {categorias} from '../types/types';
-import {ItemCategoria} from './ItemCategoria';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import { setShowModal } from '../store/slices/custom/customSlice';
+import { categorias } from '../types/types';
+import { ItemCategoria } from './ItemCategoria';
 
 export function ModalCategorias(): JSX.Element {
-  const {showModal} = useAppSelector(state => state.custom);
+  const { showModal } = useAppSelector(state => state.custom);
   const dispatch = useAppDispatch();
 
   function handleCloseModal() {
@@ -25,11 +19,13 @@ export function ModalCategorias(): JSX.Element {
       animationType="slide"
       transparent
       visible={showModal}
-      onRequestClose={() => handleCloseModal()}>
+      onRequestClose={() => handleCloseModal()}
+    >
       <ScrollView style={styles.contenedorModal}>
         <Pressable
           onPress={() => handleCloseModal()}
-          style={styles.iconoCerrar}>
+          style={styles.iconoCerrar}
+        >
           <FontAwesomeIcon icon={faClose} size={23} />
         </Pressable>
         <View style={styles.contenedorCategorias}>

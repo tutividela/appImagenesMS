@@ -1,4 +1,4 @@
-import {PayloadAction, createSlice} from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   encuestas: [],
@@ -18,5 +18,5 @@ export const encuestasSlice = createSlice({
   },
 });
 
-export const {setEncuestas, setCargandoEncuestas} = encuestasSlice.actions;
+export const { setEncuestas, setCargandoEncuestas } = encuestasSlice.actions;
 export default encuestasSlice.reducer;

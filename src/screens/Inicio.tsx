@@ -1,12 +1,12 @@
-import {Alert, Image, StyleSheet, View} from 'react-native';
+import { Alert, Image, StyleSheet, View } from 'react-native';
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {storage} from '../utils/mmkv';
-import {useContext} from 'react';
-import {Context} from '../utils/context';
+import { storage } from '../utils/mmkv';
+import { useContext } from 'react';
+import { Context } from '../utils/context';
 
 GoogleSignin.configure({
   webClientId:
@@ -15,12 +15,12 @@ GoogleSignin.configure({
 });
 
 export function Inicio(): JSX.Element {
-  const {setEstaLogueado} = useContext(Context);
+  const { setEstaLogueado } = useContext(Context);
   const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const {
-        user: {name, photo},
+        user: { name, photo },
         idToken,
       } = await GoogleSignin.signIn();
 

@@ -1,32 +1,32 @@
-import {useEffect, useState} from 'react';
-import {Encuesta} from '../types/types';
-import {Familia} from '../components/Familia';
+import { useEffect, useState } from 'react';
+import { Encuesta } from '../types/types';
+import { Familia } from '../components/Familia';
 import React from 'react';
 import {
   ActivityIndicator,
   FlatList,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faFilter} from '@fortawesome/free-solid-svg-icons';
-import {ModalEncuestas} from '../components/ModalEncuestas';
-import {storage} from '../utils/mmkv';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { ModalEncuestas } from '../components/ModalEncuestas';
+import { storage } from '../utils/mmkv';
 import {
   setCargandoEncuestas,
   setEncuestas,
 } from '../store/slices/encuestas/encuestasSlice';
-import {useAppDispatch, useAppSelector} from '../utils/hooks';
-import {buscarEntrevistas} from '../store/slices/encuestas/thunks';
+import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import { buscarEntrevistas } from '../store/slices/encuestas/thunks';
 
-const url = 'https://backend-appsmoviles.onrender.com/encuestas';
-
-export function Encuestas({navigation}: any): React.JSX.Element {
+export function Encuestas({ navigation }: any): React.JSX.Element {
   const [showModal, setShowModal] = useState(false);
   const idtoken = storage.getString('idtoken');
+  console.log(idtoken);
   const dispatch = useAppDispatch();
-  const {cargandoEncuestas, encuestas} = useAppSelector(
+  const { cargandoEncuestas, encuestas } = useAppSelector(
     state => state.encuestas,
   );
 
@@ -79,7 +79,8 @@ export function Encuestas({navigation}: any): React.JSX.Element {
       <View style={styles.cabecera}>
         <TouchableOpacity
           onPress={() => onHandleShowModal(true)}
-          style={styles.icono}>
+          style={styles.icono}
+        >
           <FontAwesomeIcon icon={faFilter} color="#00bfff" size={30} />
         </TouchableOpacity>
       </View>
@@ -91,10 +92,10 @@ export function Encuestas({navigation}: any): React.JSX.Element {
       <View style={styles.cuerpo}>
         {cargandoEncuestas ? (
           <ActivityIndicator color="#00bfff" size={50} />
-        ) : (
+        ) : encuestas.length ? (
           <FlatList
             data={encuestas}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <Familia
                 familia={item}
                 key={item._id}
@@ -103,6 +104,10 @@ export function Encuestas({navigation}: any): React.JSX.Element {
             )}
             keyExtractor={(item: Encuesta) => item._id}
           />
+        ) : (
+          <View style={styles.contenedorNoHayFotos}>
+            <Text style={styles.tituloNoHayFotos}>No hay fotos</Text>
+          </View>
         )}
       </View>
     </View>
@@ -128,5 +133,12 @@ const styles = StyleSheet.create({
     flex: 8,
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  contenedorNoHayFotos: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  tituloNoHayFotos: {
+    fontSize: 20,
   },
 });

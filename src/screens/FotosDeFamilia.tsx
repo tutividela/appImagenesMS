@@ -1,5 +1,5 @@
-import {faCirclePlus, faCaretDown} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import { faCirclePlus, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
   ActivityIndicator,
   FlatList,
@@ -8,18 +8,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Foto} from '../components/Foto';
-import {Boton} from '../components/Boton';
-import {useAppDispatch, useAppSelector} from '../utils/hooks';
-import {setShowModal} from '../store/slices/custom/customSlice';
-import {ModalCategorias} from '../components/ModalCategorias';
-import {useEffect} from 'react';
-import {buscarFotos} from '../store/slices/fotos/thunks';
+import { Foto } from '../components/Foto';
+import { Boton } from '../components/Boton';
+import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import { setShowModal } from '../store/slices/custom/customSlice';
+import { ModalCategorias } from '../components/ModalCategorias';
+import { useEffect } from 'react';
+import { buscarFotos } from '../store/slices/fotos/thunks';
 
-export function FotosDeFamilia({navigation, route}: any): JSX.Element {
-  const {idFamilia, apellido} = route.params;
-  const {categoriaActual, cargando} = useAppSelector(state => state.custom);
-  const {imagenes} = useAppSelector(state => state.fotos);
+export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
+  const { idFamilia, apellido } = route.params;
+  const { categoriaActual, cargando } = useAppSelector(state => state.custom);
+  const { imagenes } = useAppSelector(state => state.fotos);
   const dispatch = useAppDispatch();
   const urlImagenes: string = `https://backend-appsmoviles.onrender.com/images/${idFamilia}/`;
 
@@ -55,12 +55,13 @@ export function FotosDeFamilia({navigation, route}: any): JSX.Element {
       <View style={styles.cuerpo}>
         {cargando ? (
           <ActivityIndicator color="#00bfff" size={50} />
-        ) : imagenes.length? (
+        ) : imagenes.length ? (
           <FlatList
             data={imagenes}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <Foto url={`${urlImagenes}${item.imageName}`} />
             )}
+            horizontal={true}
           />
         ) : (
           <View style={styles.contenedorNoHayFotos}>
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   contenedorNoHayFotos: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
   },
   tituloNoHayFotos: {

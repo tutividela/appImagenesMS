@@ -1,6 +1,6 @@
-import {IconDefinition} from '@fortawesome/fontawesome-svg-core';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 
 type props = {
   titulo: string;

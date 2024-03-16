@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 type Imagen = {
   _id: string;
@@ -12,14 +12,14 @@ const initialState = {
 };
 
 export const fotosSlice = createSlice({
-    name: 'fotos',
-    initialState: initialState,
-    reducers: {
-      setFotos: (state, action: PayloadAction<Imagen[]>) => {
-        state.imagenes = action.payload;
-      },
+  name: 'fotos',
+  initialState: initialState,
+  reducers: {
+    setFotos: (state, action: PayloadAction<Imagen[]>) => {
+      state.imagenes = action.payload;
     },
-  });
-  
-  export const {setFotos} = fotosSlice.actions;
-  export default fotosSlice.reducer;
+  },
+});
+
+export const { setFotos } = fotosSlice.actions;
+export default fotosSlice.reducer;

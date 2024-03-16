@@ -1,12 +1,15 @@
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {setCategoriaActual, setShowModal} from '../store/slices/custom/customSlice';
-import {useAppDispatch} from '../utils/hooks';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import {
+  setCategoriaActual,
+  setShowModal,
+} from '../store/slices/custom/customSlice';
+import { useAppDispatch } from '../utils/hooks';
 
 type props = {
   nombre: string;
 };
 
-export function ItemCategoria({nombre}: props): JSX.Element {
+export function ItemCategoria({ nombre }: props): JSX.Element {
   const dispatch = useAppDispatch();
 
   function handleBuscarFotosDeCategoria(nombre: string) {
@@ -17,7 +20,8 @@ export function ItemCategoria({nombre}: props): JSX.Element {
   return (
     <TouchableOpacity
       style={styles.contenedor}
-      onPress={() => handleBuscarFotosDeCategoria(nombre)}>
+      onPress={() => handleBuscarFotosDeCategoria(nombre)}
+    >
       <Text style={styles.texto}>{nombre}</Text>
     </TouchableOpacity>
   );
@@ -33,4 +37,3 @@ const styles = StyleSheet.create({
     fontSize: 22,
   },
 });
-
