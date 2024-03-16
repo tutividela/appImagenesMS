@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {setCategoriaActual, setShowModal} from '../store/slices/customSlice';
+import {setCategoriaActual, setShowModal} from '../store/slices/custom/customSlice';
 import {useAppDispatch} from '../utils/hooks';
 
 type props = {

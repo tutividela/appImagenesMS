@@ -6,12 +6,16 @@ import {
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {Image, StyleSheet, View} from 'react-native';
 
-export function Foto(): JSX.Element {
+type props = {
+  url: string;
+};
+
+export function Foto({url}: props): JSX.Element {
   return (
     <View style={styles.contenedor}>
       <View style={styles.contenedorImagen}>
         <Image
-          source={require('../public/Ejemplo.jpeg')}
+          source={require('../public/logo-modulo.png')}
           style={styles.imagen}
         />
       </View>
@@ -35,6 +39,7 @@ const styles = StyleSheet.create({
   imagen: {
     height: '100%',
     width: '100%',
+    resizeMode: 'repeat'
   },
   contenedorIconos: {
     flexDirection: 'row',

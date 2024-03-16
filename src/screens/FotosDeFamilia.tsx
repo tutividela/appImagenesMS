@@ -1,20 +1,35 @@
 import {faCirclePlus, faCaretDown} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Foto} from '../components/Foto';
 import {Boton} from '../components/Boton';
 import {useAppDispatch, useAppSelector} from '../utils/hooks';
-import {setShowModal} from '../store/slices/customSlice';
+import {setShowModal} from '../store/slices/custom/customSlice';
 import {ModalCategorias} from '../components/ModalCategorias';
+import {useEffect} from 'react';
+import {buscarFotos} from '../store/slices/fotos/thunks';
 
 export function FotosDeFamilia({navigation, route}: any): JSX.Element {
   const {idFamilia, apellido} = route.params;
-  const {categoriaActual} = useAppSelector(state => state.custom);
+  const {categoriaActual, cargando} = useAppSelector(state => state.custom);
+  const {imagenes} = useAppSelector(state => state.fotos);
   const dispatch = useAppDispatch();
+  const urlImagenes: string = `https://backend-appsmoviles.onrender.com/images/${idFamilia}/`;
 
   function handleShowModal() {
     dispatch(setShowModal(true));
   }
+
+  useEffect(() => {
+    dispatch(buscarFotos(idFamilia, categoriaActual));
+  }, []);
 
   return (
     <View style={styles.contenedor}>
@@ -34,7 +49,18 @@ export function FotosDeFamilia({navigation, route}: any): JSX.Element {
         />
       </View>
       <View style={styles.cuerpo}>
-        <Foto />
+        {cargando ? (
+          <ActivityIndicator color="#00bfff" size={50} />
+        ) : imagenes.length? (
+          <FlatList
+            data={imagenes}
+            renderItem={({item}) => (
+              <Foto url={`${urlImagenes}${item.imageName}`} />
+            )}
+          />
+        ) : (
+          <Text>No hay fotos</Text>
+        )}
       </View>
     </View>
   );
@@ -60,6 +86,7 @@ const styles = StyleSheet.create({
     flex: 8,
     flexDirection: 'row',
     justifyContent: 'center',
+    backgroundColor: 'green'
   },
   contenedorSelector: {
     padding: 10,

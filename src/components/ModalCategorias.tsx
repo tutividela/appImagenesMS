@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {useAppDispatch, useAppSelector} from '../utils/hooks';
-import {setShowModal} from '../store/slices/customSlice';
+import {setShowModal} from '../store/slices/custom/customSlice';
 import {categorias} from '../types/types';
 import {ItemCategoria} from './ItemCategoria';
 

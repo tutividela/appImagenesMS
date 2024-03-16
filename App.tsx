@@ -29,6 +29,7 @@ function App(): React.JSX.Element {
                   options={{
                     headerRight: () => <Logout />,
                     headerTitle: () => <Usuario />,
+                    headerTitleAlign: 'center'
                   }}
                 />
                 <Stack.Screen
@@ -37,6 +38,7 @@ function App(): React.JSX.Element {
                   options={{
                     headerRight: () => <Logout />,
                     headerTitle: () => <Usuario />,
+                    headerTitleAlign: "center"
                   }}
                 />
               </>

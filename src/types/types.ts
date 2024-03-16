@@ -11,11 +11,6 @@ export type Encuesta = {
   };
 };
 
-export type Custom = {
-  showModal: boolean;
-  categoriaActual: string;
-};
-
 export const categorias: string[] = [
   'PreCC_croquisE1',
   'PreCC_delanteCasa',
