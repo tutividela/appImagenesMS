@@ -16,8 +16,9 @@ import {storage} from '../utils/mmkv';
 import {
   setCargandoEncuestas,
   setEncuestas,
-} from '../store/slices/encuestasSlice';
+} from '../store/slices/encuestas/encuestasSlice';
 import {useAppDispatch, useAppSelector} from '../utils/hooks';
+import {buscarEntrevistas} from '../store/slices/encuestas/thunks';
 
 const url = 'https://backend-appsmoviles.onrender.com/encuestas';
 
@@ -30,13 +31,7 @@ export function Encuestas({navigation}: any): React.JSX.Element {
   );
 
   useEffect(() => {
-    fetch(url, {headers: {idtoken}})
-      .then((response: Response) => response.json())
-      .then(jsonData => {
-        dispatch(setEncuestas(jsonData));
-        dispatch(setCargandoEncuestas(true));
-      })
-      .catch(err => console.log(err));
+    dispatch(buscarEntrevistas());
   }, []);
 
   function onHandleMagnify(idFamilia: string, apellido: string): void {
@@ -95,6 +90,8 @@ export function Encuestas({navigation}: any): React.JSX.Element {
       />
       <View style={styles.cuerpo}>
         {cargandoEncuestas ? (
+          <ActivityIndicator color="#00bfff" size={50} />
+        ) : (
           <FlatList
             data={encuestas}
             renderItem={({item}) => (
@@ -106,8 +103,6 @@ export function Encuestas({navigation}: any): React.JSX.Element {
             )}
             keyExtractor={(item: Encuesta) => item._id}
           />
-        ) : (
-          <ActivityIndicator color="#00bfff" size={50} />
         )}
       </View>
     </View>

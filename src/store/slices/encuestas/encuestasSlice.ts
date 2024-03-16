@@ -2,7 +2,7 @@ import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   encuestas: [],
-  cargandoEncuestas: false,
+  cargandoEncuestas: true,
 };
 
 export const encuestasSlice = createSlice({
