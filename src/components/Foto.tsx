@@ -3,16 +3,17 @@ import {
   faLocationDot,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useEffect, useRef } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Animated } from 'react-native';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {useEffect, useRef} from 'react';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Animated} from 'react-native';
 
 type props = {
   url: string;
+  onhandleUbicacionEnMapa: Function;
 };
 
-export function Foto({ url }: props): JSX.Element {
+export function Foto({url, onhandleUbicacionEnMapa}: props): JSX.Element {
   const dimensionValueAnimation = useRef(new Animated.Value(0)).current;
   const opacityValueAnimation = useRef(new Animated.Value(0)).current;
 
@@ -52,10 +53,11 @@ export function Foto({ url }: props): JSX.Element {
         />
       </View>
       <Animated.View
-        style={{ ...styles.contenedorIconos, opacity: opacityValueAnimation }}
-      >
+        style={{...styles.contenedorIconos, opacity: opacityValueAnimation}}>
         <FontAwesomeIcon icon={faTrash} size={30} color="#b22222" />
-        <FontAwesomeIcon icon={faLocationDot} size={30} color="#1e90ff" />
+        <TouchableOpacity onPress={() => onhandleUbicacionEnMapa()}>
+          <FontAwesomeIcon icon={faLocationDot} size={30} color="#1e90ff" />
+        </TouchableOpacity>
         <FontAwesomeIcon icon={faDownload} size={30} color="#808080" />
       </Animated.View>
     </View>

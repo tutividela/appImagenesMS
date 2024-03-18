@@ -24,7 +24,6 @@ import { buscarEntrevistas } from '../store/slices/encuestas/thunks';
 export function Encuestas({ navigation }: any): React.JSX.Element {
   const [showModal, setShowModal] = useState(false);
   const idtoken = storage.getString('idtoken');
-  console.log(idtoken);
   const dispatch = useAppDispatch();
   const { cargandoEncuestas, encuestas } = useAppSelector(
     state => state.encuestas,

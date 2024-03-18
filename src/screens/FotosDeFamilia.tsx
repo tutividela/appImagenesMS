@@ -27,6 +27,10 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
     dispatch(setShowModal(true));
   }
 
+  function handleUbicacionEnMapa() {
+    navigation.navigate('Mapa');
+  }
+
   useEffect(() => {
     dispatch(buscarFotos(idFamilia, categoriaActual));
   }, []);
@@ -59,7 +63,7 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
           <FlatList
             data={imagenes}
             renderItem={({ item }) => (
-              <Foto url={`${urlImagenes}${item.imageName}`} />
+              <Foto url={`${urlImagenes}${item.imageName}`} onhandleUbicacionEnMapa={handleUbicacionEnMapa}/>
             )}
             horizontal={true}
           />
