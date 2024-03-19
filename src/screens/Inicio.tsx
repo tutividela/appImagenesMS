@@ -27,7 +27,7 @@ export function Inicio(): JSX.Element {
       storage.setString('idtoken', idToken!);
       storage.setString('usuario', name!);
       storage.setString('urlFoto', photo!);
-      console.log(idToken)
+      console.log(idToken);
       setEstaLogueado(true);
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {

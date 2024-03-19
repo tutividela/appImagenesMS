@@ -18,6 +18,20 @@ namespace FotosService {
       console.log('Error en FotosService.buscarPor: ', error);
     }
   }
+  export async function eliminar(
+    idFamilia: string,
+    category: string,
+    idFoto: string,
+  ): Promise<void> {
+    try {
+      await fetch(`${url}${idFamilia}/${category}/${idFoto}`, {
+        method: 'DELETE',
+        headers: { idtoken },
+      });
+    } catch (error: any) {
+      console.log('Error en FotosService.eliminar: ', error);
+    }
+  }
 }
 
 export default FotosService;

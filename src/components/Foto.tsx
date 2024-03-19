@@ -3,19 +3,28 @@ import {
   faLocationDot,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {useEffect, useRef} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {Animated} from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { useEffect, useRef } from 'react';
+import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Animated } from 'react-native';
 
 type props = {
+  id: string;
   url: string;
   onhandleUbicacionEnMapa: Function;
+  onHandleEliminarFoto: Function;
   latitud: number | null;
   longitud: number | null;
 };
 
-export function Foto({url, onhandleUbicacionEnMapa, latitud, longitud}: props): JSX.Element {
+export function Foto({
+  id,
+  url,
+  onhandleUbicacionEnMapa,
+  onHandleEliminarFoto,
+  latitud,
+  longitud,
+}: props): JSX.Element {
   const dimensionValueAnimation = useRef(new Animated.Value(0)).current;
   const opacityValueAnimation = useRef(new Animated.Value(0)).current;
 
@@ -55,9 +64,28 @@ export function Foto({url, onhandleUbicacionEnMapa, latitud, longitud}: props): 
         />
       </View>
       <Animated.View
-        style={{...styles.contenedorIconos, opacity: opacityValueAnimation}}>
-        <FontAwesomeIcon icon={faTrash} size={30} color="#b22222" />
-        <TouchableOpacity onPress={() => onhandleUbicacionEnMapa(latitud, longitud)}>
+        style={{ ...styles.contenedorIconos, opacity: opacityValueAnimation }}
+      >
+        <TouchableOpacity
+          onPress={() =>
+            Alert.alert('Atencion', '¿Esta seguro de eliminar la foto?', [
+              {
+                text: 'No',
+                onPress: () => console.log('No se elimino la foto'),
+              },
+              {
+                text: 'Si',
+                onPress: () => onHandleEliminarFoto(id),
+              },
+            ])
+          }
+        >
+          <FontAwesomeIcon icon={faTrash} size={30} color="#b22222" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => onhandleUbicacionEnMapa(latitud, longitud)}
+        >
           <FontAwesomeIcon icon={faLocationDot} size={30} color="#1e90ff" />
         </TouchableOpacity>
         <FontAwesomeIcon icon={faDownload} size={30} color="#808080" />

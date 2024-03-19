@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from '../utils/hooks';
 import { setShowModal } from '../store/slices/custom/customSlice';
 import { ModalCategorias } from '../components/ModalCategorias';
 import { useEffect } from 'react';
-import { buscarFotos } from '../store/slices/fotos/thunks';
+import { buscarFotos, eliminarFoto } from '../store/slices/fotos/thunks';
 
 export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
   const { idFamilia, apellido } = route.params;
@@ -40,9 +40,10 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
     }
   }
 
-  useEffect(() => {
+  function handleEliminarFoto(id: string): void {
+    dispatch(eliminarFoto(idFamilia, categoriaActual, id));
     dispatch(buscarFotos(idFamilia, categoriaActual));
-  }, []);
+  }
 
   useEffect(() => {
     dispatch(buscarFotos(idFamilia, categoriaActual));
@@ -73,8 +74,10 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
             data={imagenes}
             renderItem={({ item }) => (
               <Foto
+                id={item._id}
                 url={`${urlImagenes}${item.imageName}`}
                 onhandleUbicacionEnMapa={handleUbicacionEnMapa}
+                onHandleEliminarFoto={handleEliminarFoto}
                 latitud={item.latitude}
                 longitud={item.longitude}
               />

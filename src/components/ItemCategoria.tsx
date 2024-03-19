@@ -12,8 +12,8 @@ type props = {
 export function ItemCategoria({ nombre }: props): JSX.Element {
   const dispatch = useAppDispatch();
 
-  function handleBuscarFotosDeCategoria(nombre: string) {
-    dispatch(setCategoriaActual(nombre));
+  function handleBuscarFotosDeCategoria(categoria: string) {
+    dispatch(setCategoriaActual(categoria));
     dispatch(setShowModal(false));
   }
 

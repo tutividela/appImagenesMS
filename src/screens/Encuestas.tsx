@@ -13,7 +13,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { ModalEncuestas } from '../components/ModalEncuestas';
-import { storage } from '../utils/mmkv';
 import {
   setCargandoEncuestas,
   setEncuestas,
@@ -23,7 +22,6 @@ import { buscarEntrevistas } from '../store/slices/encuestas/thunks';
 
 export function Encuestas({ navigation }: any): React.JSX.Element {
   const [showModal, setShowModal] = useState(false);
-  const idtoken = storage.getString('idtoken');
   const dispatch = useAppDispatch();
   const { cargandoEncuestas, encuestas } = useAppSelector(
     state => state.encuestas,
