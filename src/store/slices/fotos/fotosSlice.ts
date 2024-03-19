@@ -3,8 +3,8 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 type Imagen = {
   _id: string;
   imageName: string;
-  latitude: string | null;
-  longitude: string | null;
+  latitude: number | null;
+  longitude: number | null;
 };
 
 const initialState = {

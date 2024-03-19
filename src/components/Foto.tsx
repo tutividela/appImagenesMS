@@ -11,9 +11,11 @@ import {Animated} from 'react-native';
 type props = {
   url: string;
   onhandleUbicacionEnMapa: Function;
+  latitud: number | null;
+  longitud: number | null;
 };
 
-export function Foto({url, onhandleUbicacionEnMapa}: props): JSX.Element {
+export function Foto({url, onhandleUbicacionEnMapa, latitud, longitud}: props): JSX.Element {
   const dimensionValueAnimation = useRef(new Animated.Value(0)).current;
   const opacityValueAnimation = useRef(new Animated.Value(0)).current;
 
@@ -55,7 +57,7 @@ export function Foto({url, onhandleUbicacionEnMapa}: props): JSX.Element {
       <Animated.View
         style={{...styles.contenedorIconos, opacity: opacityValueAnimation}}>
         <FontAwesomeIcon icon={faTrash} size={30} color="#b22222" />
-        <TouchableOpacity onPress={() => onhandleUbicacionEnMapa()}>
+        <TouchableOpacity onPress={() => onhandleUbicacionEnMapa(latitud, longitud)}>
           <FontAwesomeIcon icon={faLocationDot} size={30} color="#1e90ff" />
         </TouchableOpacity>
         <FontAwesomeIcon icon={faDownload} size={30} color="#808080" />

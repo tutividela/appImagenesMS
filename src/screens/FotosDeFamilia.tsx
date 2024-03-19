@@ -2,6 +2,7 @@ import { faCirclePlus, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   StyleSheet,
   Text,
@@ -27,8 +28,16 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
     dispatch(setShowModal(true));
   }
 
-  function handleUbicacionEnMapa() {
-    navigation.navigate('Mapa');
+  function handleUbicacionEnMapa(
+    latitud: number | null,
+    longitud: number | null,
+  ): void {
+    const noExisteUbicacion = latitud === null || longitud === null;
+    if (noExisteUbicacion) {
+      Alert.alert('La Foto no tiene ubicacion para mostrar en el mapa');
+    } else {
+      navigation.navigate('Mapa', { latitud: latitud, longitud: longitud });
+    }
   }
 
   useEffect(() => {
@@ -63,7 +72,12 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
           <FlatList
             data={imagenes}
             renderItem={({ item }) => (
-              <Foto url={`${urlImagenes}${item.imageName}`} onhandleUbicacionEnMapa={handleUbicacionEnMapa}/>
+              <Foto
+                url={`${urlImagenes}${item.imageName}`}
+                onhandleUbicacionEnMapa={handleUbicacionEnMapa}
+                latitud={item.latitude}
+                longitud={item.longitude}
+              />
             )}
             horizontal={true}
           />
