@@ -11,6 +11,13 @@ export type Encuesta = {
   };
 };
 
+export type Imagen = {
+  _id: string;
+  imageName: string;
+  latitude: number | null;
+  longitude: number | null;
+};
+
 export const categorias: string[] = [
   'PreCC_croquisE1',
   'PreCC_delanteCasa',

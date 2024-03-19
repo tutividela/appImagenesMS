@@ -3,7 +3,7 @@ import {
   setCategoriaActual,
   setShowModal,
 } from '../store/slices/custom/customSlice';
-import { useAppDispatch } from '../utils/hooks';
+import { useAppDispatch } from '../hooks/hooks';
 
 type props = {
   nombre: string;

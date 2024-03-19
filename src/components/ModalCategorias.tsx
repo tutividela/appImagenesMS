@@ -1,7 +1,7 @@
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
-import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { setShowModal } from '../store/slices/custom/customSlice';
 import { categorias } from '../types/types';
 import { ItemCategoria } from './ItemCategoria';

@@ -7,24 +7,25 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useEffect, useRef } from 'react';
 import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Animated } from 'react-native';
+import { Imagen } from '../types/types';
+
 
 type props = {
-  id: string;
+  imagen: Imagen;
   url: string;
   onhandleUbicacionEnMapa: Function;
   onHandleEliminarFoto: Function;
-  latitud: number | null;
-  longitud: number | null;
+  onHandleDescargarFoto: Function;
 };
 
 export function Foto({
-  id,
+  imagen,
   url,
   onhandleUbicacionEnMapa,
   onHandleEliminarFoto,
-  latitud,
-  longitud,
+  onHandleDescargarFoto,
 }: props): JSX.Element {
+  const {_id, imageName, latitude, longitude} = imagen;
   const dimensionValueAnimation = useRef(new Animated.Value(0)).current;
   const opacityValueAnimation = useRef(new Animated.Value(0)).current;
 
@@ -75,7 +76,7 @@ export function Foto({
               },
               {
                 text: 'Si',
-                onPress: () => onHandleEliminarFoto(id),
+                onPress: () => onHandleEliminarFoto(_id),
               },
             ])
           }
@@ -84,11 +85,15 @@ export function Foto({
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => onhandleUbicacionEnMapa(latitud, longitud)}
+          onPress={() => onhandleUbicacionEnMapa(latitude, longitude)}
         >
           <FontAwesomeIcon icon={faLocationDot} size={30} color="#1e90ff" />
         </TouchableOpacity>
-        <FontAwesomeIcon icon={faDownload} size={30} color="#808080" />
+        
+        <TouchableOpacity onPress={async () => await onHandleDescargarFoto(imageName, url)}>
+          <FontAwesomeIcon icon={faDownload} size={30} color="#808080" />
+        </TouchableOpacity>
+        
       </Animated.View>
     </View>
   );

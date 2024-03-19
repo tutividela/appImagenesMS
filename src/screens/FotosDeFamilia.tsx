@@ -11,11 +11,12 @@ import {
 } from 'react-native';
 import { Foto } from '../components/Foto';
 import { Boton } from '../components/Boton';
-import { useAppDispatch, useAppSelector } from '../utils/hooks';
-import { setShowModal } from '../store/slices/custom/customSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { setCargando, setShowModal } from '../store/slices/custom/customSlice';
 import { ModalCategorias } from '../components/ModalCategorias';
 import { useEffect } from 'react';
 import { buscarFotos, eliminarFoto } from '../store/slices/fotos/thunks';
+import { obtenerPermisos } from '../utils/descargarFoto';
 
 export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
   const { idFamilia, apellido } = route.params;
@@ -43,6 +44,12 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
   function handleEliminarFoto(id: string): void {
     dispatch(eliminarFoto(idFamilia, categoriaActual, id));
     dispatch(buscarFotos(idFamilia, categoriaActual));
+  }
+
+  async function handleDescargarFoto(nombreConExtension: string, urlFoto: string): Promise<void> {
+    dispatch(setCargando(true));
+    await obtenerPermisos(nombreConExtension, urlFoto);
+    dispatch(setCargando(false));
   }
 
   useEffect(() => {
@@ -74,12 +81,11 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
             data={imagenes}
             renderItem={({ item }) => (
               <Foto
-                id={item._id}
+                imagen={item}
                 url={`${urlImagenes}${item.imageName}`}
                 onhandleUbicacionEnMapa={handleUbicacionEnMapa}
                 onHandleEliminarFoto={handleEliminarFoto}
-                latitud={item.latitude}
-                longitud={item.longitude}
+                onHandleDescargarFoto={handleDescargarFoto}
               />
             )}
             horizontal={true}

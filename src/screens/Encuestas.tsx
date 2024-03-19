@@ -17,7 +17,7 @@ import {
   setCargandoEncuestas,
   setEncuestas,
 } from '../store/slices/encuestas/encuestasSlice';
-import { useAppDispatch, useAppSelector } from '../utils/hooks';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { buscarEntrevistas } from '../store/slices/encuestas/thunks';
 
 export function Encuestas({ navigation }: any): React.JSX.Element {

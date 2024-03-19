@@ -1,11 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-
-type Imagen = {
-  _id: string;
-  imageName: string;
-  latitude: number | null;
-  longitude: number | null;
-};
+import { Imagen } from '../../../types/types';
 
 const initialState = {
   imagenes: [] as Imagen[],
