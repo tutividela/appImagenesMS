@@ -1,6 +1,6 @@
-import { SetStateAction, createContext } from 'react';
+import { createContext } from 'react';
 
 export const Context = createContext({
-    estaLogueado: false,
-    setEstaLogueado: (valor: boolean): void => {}
+  estaLogueado: false,
+  setEstaLogueado: (valor: boolean): void => {},
 });

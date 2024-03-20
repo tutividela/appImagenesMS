@@ -1,11 +1,14 @@
-import {Encuesta} from '../types/types';
+import { Encuesta } from '../types/types';
+import { storage } from '../utils/mmkv';
+
+const url = 'https://backend-appsmoviles.onrender.com/encuestas';
+const idtoken = storage.getString('idtoken');
 
 namespace EncuestaService {
   export async function buscarTodas(): Promise<any> {
-    const url = 'https://backend-appsmoviles.onrender.com/encuestas';
     try {
-      const entrevistas = await fetch(url);
-      return (await entrevistas.json()) as Encuesta[];
+      const response = await fetch(url, { headers: { idtoken } });
+      return (await response.json()) as Encuesta[];
     } catch (error: any) {
       console.log('Error en EncuestaService.buscarTodas: ', error);
     }

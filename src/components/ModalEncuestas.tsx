@@ -1,8 +1,15 @@
-import {Button, Modal, Pressable, ScrollView, StyleSheet, View} from 'react-native';
-import {FiltroEncuesta} from './FiltroEncuesta';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faClose} from '@fortawesome/free-solid-svg-icons';
-import {useState} from 'react';
+import {
+  Button,
+  Modal,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
+import { FiltroEncuesta } from './FiltroEncuesta';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 import React from 'react';
 
 type props = {
@@ -23,7 +30,7 @@ export function ModalEncuestas({
 
   function filtrarFamilias() {
     handleShowModal(false);
-    handleFiltrarFamilias({apellido, provincia, partido, barrio});
+    handleFiltrarFamilias({ apellido, provincia, partido, barrio });
     setApellido('');
     setProvincia('');
     setPartido('');
@@ -35,11 +42,13 @@ export function ModalEncuestas({
       animationType="slide"
       transparent
       visible={showModal}
-      onRequestClose={() => handleShowModal(false)}>
+      onRequestClose={() => handleShowModal(false)}
+    >
       <ScrollView style={styles.contenedorModal}>
         <Pressable
           onPress={() => handleShowModal(false)}
-          style={styles.iconoCerrar}>
+          style={styles.iconoCerrar}
+        >
           <FontAwesomeIcon icon={faClose} size={23} />
         </Pressable>
         <View style={styles.contenedorFiltros}>

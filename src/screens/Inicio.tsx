@@ -1,10 +1,10 @@
-import {Alert, Image, StyleSheet, View} from 'react-native';
+import { Alert, Image, StyleSheet, View } from 'react-native';
 import {
   GoogleSignin,
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {storage} from '../utils/mmkv';
+import { storage } from '../utils/mmkv';
 import { useContext } from 'react';
 import { Context } from '../utils/context';
 
@@ -15,20 +15,20 @@ GoogleSignin.configure({
 });
 
 export function Inicio(): JSX.Element {
-  const {setEstaLogueado} = useContext(Context);
+  const { setEstaLogueado } = useContext(Context);
   const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const {
-        user: {name, photo},
+        user: { name, photo },
         idToken,
       } = await GoogleSignin.signIn();
 
       storage.setString('idtoken', idToken!);
       storage.setString('usuario', name!);
       storage.setString('urlFoto', photo!);
+      console.log(idToken);
       setEstaLogueado(true);
-
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         console.log('User cancelled the login flow');
