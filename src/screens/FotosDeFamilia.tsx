@@ -52,6 +52,10 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
     dispatch(setCargando(false));
   }
 
+  function handleSubirFoto(): void {
+    navigation.navigate('SubirFoto');
+  }
+
   useEffect(() => {
     dispatch(buscarFotos(idFamilia, categoriaActual));
   }, [categoriaActual]);
@@ -60,7 +64,7 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
     <View style={styles.contenedor}>
       <View style={styles.cabecera}>
         <Text style={styles.titulo}>{apellido}</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSubirFoto()}>
           <FontAwesomeIcon icon={faCirclePlus} color="#00bfff" size={30} />
         </TouchableOpacity>
       </View>
