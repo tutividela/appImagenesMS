@@ -66,6 +66,10 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
     dispatch(buscarFotos(idFamilia, categoriaActual));
   }, [categoriaActual]);
 
+  useEffect(() => {
+    dispatch(buscarFotos(idFamilia, categoriaActual));
+  }, []);
+
   return (
     <View style={styles.contenedor}>
       <View style={styles.cabecera}>

@@ -38,10 +38,10 @@ namespace FotosService {
     category: string,
   ) {
     try {
-      let form = new FormData();
+      let form: FormData = new FormData();
       const urlImagenASubir: string = `${url}${idFamilia}`;
-
-      form.append('image', informacionDeFotoASubir);
+      console.log(informacionDeFotoASubir)
+      form.append('image', {uri: informacionDeFotoASubir.uri, type: informacionDeFotoASubir.mime, name: 'imagen.jpg', fileName: `${Date.now()}.jpg` });
       form.append('category', category);
       const response = await fetch(urlImagenASubir, {
         method: 'POST',

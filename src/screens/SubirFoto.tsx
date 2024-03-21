@@ -4,6 +4,7 @@ import {
   View,
   Image,
   ActivityIndicator,
+  Text,
 } from 'react-native';
 import { Boton } from '../components/Boton';
 import { useEffect, useState } from 'react';
@@ -40,6 +41,7 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
   }
 
   function guardarFoto(): void {
+    console.log(imagenASubir);
     dispatch(subirFoto(imagenASubir, idFamilia, categoriaActual));
     dispatch(setImagenASubir(null));
     navigation.goBack();
@@ -49,45 +51,51 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
     dispatch(setImagenASubir(null));
   }, []);
 
-  return !cargando ? (
+  return (
     <View style={styles.contendor}>
-      <View style={styles.contenedorFoto}>
-        {imagenASubir ? (
-          <Image source={{ uri: imagenASubir.uri }} style={styles.foto} />
-        ) : (
-          <Image
-            source={require('../public/fotoVacia.jpg')}
-            style={styles.foto}
-          />
-        )}
-        <FontAwesomeIcon icon={faCircleXmark} size={50} />
-      </View>
-      <View style={styles.contenedorBotones}>
-        <Boton
-          titulo="Elegir foto de galeria"
-          onPress={() => agregarFotoDeGaleria()}
-          style={styles.botonAbrirGaleria}
-        />
-        <Boton
-          titulo="Subir Foto"
-          onPress={() => {
-            Alert.alert('Advertencia', '¿Esta seguro de guardar la foto?', [
-              {
-                text: 'No',
-                onPress: () => console.log('No se elimino la foto'),
-              },
-              {
-                text: 'Si',
-                onPress: () => guardarFoto(),
-              },
-            ]);
-          }}
-          style={styles.botonSubirFoto}
-        />
-      </View>
+      {!cargando ? (
+        <>
+          <View style={styles.contenedorFoto}>
+            {imagenASubir ? (
+              <Image source={{ uri: imagenASubir.uri }} style={styles.foto} />
+            ) : (
+              <Image
+                source={require('../public/fotoVacia.jpg')}
+                style={styles.foto}
+              />
+            )}
+            <FontAwesomeIcon icon={faCircleXmark} size={50} />
+          </View>
+          <View style={styles.contenedorBotones}>
+            <Boton
+              titulo="Elegir foto de galeria"
+              onPress={() => agregarFotoDeGaleria()}
+              style={styles.botonAbrirGaleria}
+            />
+            <Boton
+              titulo="Subir Foto"
+              onPress={() => {
+                Alert.alert('Advertencia', '¿Esta seguro de guardar la foto?', [
+                  {
+                    text: 'No',
+                    onPress: () => console.log('No se elimino la foto'),
+                  },
+                  {
+                    text: 'Si',
+                    onPress: () => guardarFoto(),
+                  },
+                ]);
+              }}
+              style={styles.botonSubirFoto}
+            />
+          </View>
+        </>
+      ) : (
+        <View style={styles.contenedorCargando}>
+          <ActivityIndicator color="#00bfff" size={50} />
+        </View>
+      )}
     </View>
-  ) : (
-    <ActivityIndicator color="#00bfff" size={50} />
   );
 }
 
@@ -95,6 +103,10 @@ const styles = StyleSheet.create({
   contendor: {
     flex: 1,
     flexDirection: 'column',
+  },
+  contenedorCargando: {
+    flex: 1,
+    justifyContent: 'center',
   },
   contenedorFoto: {
     flex: 4,
