@@ -1,53 +1,93 @@
-import { Alert, StyleSheet, View, Image } from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker';
+import {
+  Alert,
+  StyleSheet,
+  View,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import { Boton } from '../components/Boton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCancel, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import ImagePicker from 'react-native-image-crop-picker';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { subirFoto } from '../store/slices/fotos/thunks';
+import { setImagenASubir } from '../store/slices/fotos/fotosSlice';
 
-export function SubirFoto(): JSX.Element {
-  const [uriFoto, setUriFoto] = useState('');
+export function SubirFoto({ navigation, route }: any): JSX.Element {
+  const { imagenASubir } = useAppSelector(state => state.fotos);
+  const { categoriaActual } = useAppSelector(state => state.custom);
+  const { cargando } = useAppSelector(state => state.custom);
+  const idFamilia = route.params.idFamilia as string;
+  const dispatch = useAppDispatch();
 
-  async function handleSubirFoto(): Promise<void> {
-    try {
-      const { assets } = await launchImageLibrary({
-        mediaType: 'photo',
-        includeExtra: true,
-        presentationStyle: 'overFullScreen',
-      });
-      console.log(assets);
-      assets?.[0].uri
-        ? setUriFoto(assets[0].uri)
-        : Alert.alert('Error', 'Uri no dispoible');
-    } catch (error: any) {
-      console.log('Error en launchImageLibrary: ', error);
-      Alert.alert('Error', 'Hubo un error al abrir la galeria');
-    }
+  function agregarFotoDeGaleria(): void {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      includeExif: true,
+    }).then(image => {
+      dispatch(
+        setImagenASubir({
+          uri: image.path,
+          width: image.width,
+          height: image.height,
+          mime: image.mime,
+          exif: image.exif,
+        }),
+      );
+    });
   }
-  return (
+
+  function guardarFoto(): void {
+    dispatch(subirFoto(imagenASubir, idFamilia, categoriaActual));
+    dispatch(setImagenASubir(null));
+    navigation.goBack();
+  }
+
+  useEffect(() => {
+    dispatch(setImagenASubir(null));
+  }, []);
+
+  return !cargando ? (
     <View style={styles.contendor}>
       <View style={styles.contenedorFoto}>
-        {uriFoto !== '' ? (
+        {imagenASubir ? (
+          <Image source={{ uri: imagenASubir.uri }} style={styles.foto} />
+        ) : (
           <Image
-            source={{ uri: uriFoto }}
+            source={require('../public/fotoVacia.jpg')}
             style={styles.foto}
           />
-        ) : null}
-        <FontAwesomeIcon icon={faCircleXmark} size={50}/>
+        )}
+        <FontAwesomeIcon icon={faCircleXmark} size={50} />
       </View>
       <View style={styles.contenedorBotones}>
         <Boton
           titulo="Elegir foto de galeria"
-          onPress={() => handleSubirFoto()}
+          onPress={() => agregarFotoDeGaleria()}
           style={styles.botonAbrirGaleria}
         />
         <Boton
           titulo="Subir Foto"
-          onPress={() => console.log('Aca tengo que subir la foto')}
+          onPress={() => {
+            Alert.alert('Advertencia', '¿Esta seguro de guardar la foto?', [
+              {
+                text: 'No',
+                onPress: () => console.log('No se elimino la foto'),
+              },
+              {
+                text: 'Si',
+                onPress: () => guardarFoto(),
+              },
+            ]);
+          }}
           style={styles.botonSubirFoto}
         />
       </View>
     </View>
+  ) : (
+    <ActivityIndicator color="#00bfff" size={50} />
   );
 }
 
@@ -60,7 +100,7 @@ const styles = StyleSheet.create({
     flex: 4,
     padding: 10,
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   contenedorBotones: {
     flex: 1,
@@ -68,6 +108,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   foto: {
+    height: 300,
+    width: 300,
   },
   botonSubirFoto: {
     backgroundColor: '#00bfff',

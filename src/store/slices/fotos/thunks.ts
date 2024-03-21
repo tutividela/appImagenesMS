@@ -36,3 +36,21 @@ export function eliminarFoto(
     dispatch(setCargando(false));
   };
 }
+
+export function subirFoto(
+  informacionDeFotoASubir: any,
+  idFamilia: string,
+  category: string,
+) {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch(setCargando(true));
+      await FotosService.subir(informacionDeFotoASubir, idFamilia, category);
+      Alert.alert('Exito', 'La foto se ha subido exitosamente');
+    } catch (error: any) {
+      dispatch(setCargando(false));
+      Alert.alert('Error', 'A ocurrido un error');
+    }
+    dispatch(setCargando(false));
+  };
+}

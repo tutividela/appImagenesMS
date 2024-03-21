@@ -35,7 +35,10 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
   ): void {
     const noExisteUbicacion = latitud === null || longitud === null;
     if (noExisteUbicacion) {
-      Alert.alert('La Foto no tiene ubicacion para mostrar en el mapa');
+      Alert.alert(
+        'Advertencia',
+        'La Foto no tiene ubicacion para mostrar en el mapa',
+      );
     } else {
       navigation.navigate('Mapa', { latitud: latitud, longitud: longitud });
     }
@@ -46,14 +49,17 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
     dispatch(buscarFotos(idFamilia, categoriaActual));
   }
 
-  async function handleDescargarFoto(nombreConExtension: string, urlFoto: string): Promise<void> {
+  async function handleDescargarFoto(
+    nombreConExtension: string,
+    urlFoto: string,
+  ): Promise<void> {
     dispatch(setCargando(true));
     await obtenerPermisos(nombreConExtension, urlFoto);
     dispatch(setCargando(false));
   }
 
   function handleSubirFoto(): void {
-    navigation.navigate('SubirFoto');
+    navigation.navigate('SubirFoto', { idFamilia: idFamilia });
   }
 
   useEffect(() => {

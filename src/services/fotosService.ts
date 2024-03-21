@@ -32,6 +32,30 @@ namespace FotosService {
       console.log('Error en FotosService.eliminar: ', error);
     }
   }
+  export async function subir(
+    informacionDeFotoASubir: any,
+    idFamilia: string,
+    category: string,
+  ) {
+    try {
+      let form = new FormData();
+      const urlImagenASubir: string = `${url}${idFamilia}`;
+
+      form.append('image', informacionDeFotoASubir);
+      form.append('category', category);
+      const response = await fetch(urlImagenASubir, {
+        method: 'POST',
+        headers: { 
+          'idtoken': idtoken, 
+          'Content-Type': 'multipart/form-data',
+        },
+        body: form,
+      });
+      console.log(response);
+    } catch (error: any) {
+      console.log('Error en FotosService.subir: ', error);
+    }
+  }
 }
 
 export default FotosService;
