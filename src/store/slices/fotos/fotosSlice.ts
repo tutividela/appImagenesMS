@@ -1,8 +1,14 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Imagen } from '../../../types/types';
 
-const initialState = {
+type FotoSliceState = {
+  imagenes: Imagen[];
+  imagenASubir: any;
+}
+
+const initialState: FotoSliceState = {
   imagenes: [] as Imagen[],
+  imagenASubir: null,
 };
 
 export const fotosSlice = createSlice({
@@ -12,8 +18,11 @@ export const fotosSlice = createSlice({
     setFotos: (state, action: PayloadAction<Imagen[]>) => {
       state.imagenes = action.payload;
     },
+    setImagenASubir: (state, action: PayloadAction<any>) => {
+      state.imagenASubir = action.payload;
+    },
   },
 });
 
-export const { setFotos } = fotosSlice.actions;
+export const { setFotos, setImagenASubir } = fotosSlice.actions;
 export default fotosSlice.reducer;

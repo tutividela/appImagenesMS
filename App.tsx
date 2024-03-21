@@ -11,6 +11,7 @@ import { FotosDeFamilia } from './src/screens/FotosDeFamilia';
 import { Usuario } from './src/components/Usuario';
 import { Mapa } from './src/screens/Mapa';
 import { enableLatestRenderer } from 'react-native-maps';
+import { SubirFoto } from './src/screens/SubirFoto';
 
 enableLatestRenderer();
 
@@ -50,6 +51,15 @@ function App(): React.JSX.Element {
                   component={Mapa}
                   options={{
                     headerTitle: () => <Usuario />,
+                    headerTitleAlign: 'center',
+                  }}
+                />
+                <Stack.Screen
+                  name='SubirFoto'
+                  component={SubirFoto}
+                  options={{
+                    headerTitle: () => <Usuario />,
+                    headerRight: () => <Logout />,
                     headerTitleAlign: 'center',
                   }}
                 />

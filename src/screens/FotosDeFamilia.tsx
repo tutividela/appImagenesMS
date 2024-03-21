@@ -17,6 +17,7 @@ import { ModalCategorias } from '../components/ModalCategorias';
 import { useEffect } from 'react';
 import { buscarFotos, eliminarFoto } from '../store/slices/fotos/thunks';
 import { obtenerPermisos } from '../utils/descargarFoto';
+import { StackActions } from '@react-navigation/native';
 
 export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
   const { idFamilia, apellido } = route.params;
@@ -35,32 +36,49 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
   ): void {
     const noExisteUbicacion = latitud === null || longitud === null;
     if (noExisteUbicacion) {
-      Alert.alert('La Foto no tiene ubicacion para mostrar en el mapa');
+      Alert.alert(
+        'Advertencia',
+        'La Foto no tiene ubicacion para mostrar en el mapa',
+      );
     } else {
       navigation.navigate('Mapa', { latitud: latitud, longitud: longitud });
     }
   }
 
   function handleEliminarFoto(id: string): void {
+    const popAction = StackActions.pop(1);
+
     dispatch(eliminarFoto(idFamilia, categoriaActual, id));
-    dispatch(buscarFotos(idFamilia, categoriaActual));
+    navigation.dispatch(popAction);
+    navigation.navigate('FotosDeFamilia', {idFamilia, apellido});
   }
 
-  async function handleDescargarFoto(nombreConExtension: string, urlFoto: string): Promise<void> {
+  async function handleDescargarFoto(
+    nombreConExtension: string,
+    urlFoto: string,
+  ): Promise<void> {
     dispatch(setCargando(true));
     await obtenerPermisos(nombreConExtension, urlFoto);
     dispatch(setCargando(false));
+  }
+
+  function handleSubirFoto(): void {
+    navigation.navigate('SubirFoto', { idFamilia: idFamilia, apellido: apellido });
   }
 
   useEffect(() => {
     dispatch(buscarFotos(idFamilia, categoriaActual));
   }, [categoriaActual]);
 
+  useEffect(() => {
+    dispatch(buscarFotos(idFamilia, categoriaActual));
+  }, []);
+
   return (
     <View style={styles.contenedor}>
       <View style={styles.cabecera}>
         <Text style={styles.titulo}>{apellido}</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSubirFoto()}>
           <FontAwesomeIcon icon={faCirclePlus} color="#00bfff" size={30} />
         </TouchableOpacity>
       </View>
