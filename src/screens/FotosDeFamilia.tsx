@@ -17,6 +17,7 @@ import { ModalCategorias } from '../components/ModalCategorias';
 import { useEffect } from 'react';
 import { buscarFotos, eliminarFoto } from '../store/slices/fotos/thunks';
 import { obtenerPermisos } from '../utils/descargarFoto';
+import { StackActions } from '@react-navigation/native';
 
 export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
   const { idFamilia, apellido } = route.params;
@@ -45,8 +46,11 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
   }
 
   function handleEliminarFoto(id: string): void {
+    const popAction = StackActions.pop(1);
+
     dispatch(eliminarFoto(idFamilia, categoriaActual, id));
-    dispatch(buscarFotos(idFamilia, categoriaActual));
+    navigation.dispatch(popAction);
+    navigation.navigate('FotosDeFamilia', {idFamilia, apellido});
   }
 
   async function handleDescargarFoto(
@@ -59,7 +63,7 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
   }
 
   function handleSubirFoto(): void {
-    navigation.navigate('SubirFoto', { idFamilia: idFamilia });
+    navigation.navigate('SubirFoto', { idFamilia: idFamilia, apellido: apellido });
   }
 
   useEffect(() => {

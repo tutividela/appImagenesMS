@@ -43,7 +43,7 @@ namespace FotosService {
       console.log(informacionDeFotoASubir)
       form.append('image', {uri: informacionDeFotoASubir.uri, type: informacionDeFotoASubir.mime, name: 'imagen.jpg', fileName: `${Date.now()}.jpg` });
       form.append('category', category);
-      const response = await fetch(urlImagenASubir, {
+      await fetch(urlImagenASubir, {
         method: 'POST',
         headers: { 
           'idtoken': idtoken, 
@@ -51,7 +51,6 @@ namespace FotosService {
         },
         body: form,
       });
-      console.log(response);
     } catch (error: any) {
       console.log('Error en FotosService.subir: ', error);
     }

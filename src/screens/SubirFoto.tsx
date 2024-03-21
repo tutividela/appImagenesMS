@@ -12,14 +12,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import ImagePicker from 'react-native-image-crop-picker';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
-import { subirFoto } from '../store/slices/fotos/thunks';
+import { buscarFotos, subirFoto } from '../store/slices/fotos/thunks';
 import { setImagenASubir } from '../store/slices/fotos/fotosSlice';
+import { StackActions } from '@react-navigation/native';
 
 export function SubirFoto({ navigation, route }: any): JSX.Element {
   const { imagenASubir } = useAppSelector(state => state.fotos);
   const { categoriaActual } = useAppSelector(state => state.custom);
   const { cargando } = useAppSelector(state => state.custom);
   const idFamilia = route.params.idFamilia as string;
+  const apellido = route.params.apellido as string;
   const dispatch = useAppDispatch();
 
   function agregarFotoDeGaleria(): void {
@@ -41,10 +43,12 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
   }
 
   function guardarFoto(): void {
-    console.log(imagenASubir);
+    const popAction = StackActions.pop(2);
+    
     dispatch(subirFoto(imagenASubir, idFamilia, categoriaActual));
-    dispatch(setImagenASubir(null));
-    navigation.goBack();
+    dispatch(buscarFotos(idFamilia, categoriaActual));
+    navigation.dispatch(popAction);
+    //navigation.navigate('FotosDeFamilia', {idFamilia: idFamilia, apellido: apellido});
   }
 
   useEffect(() => {

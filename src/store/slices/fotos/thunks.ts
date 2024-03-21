@@ -3,6 +3,7 @@ import FotosService from '../../../services/fotosService';
 import { AppDispatch } from '../../store';
 import { setCargando } from '../custom/customSlice';
 import { setFotos } from './fotosSlice';
+import { RootState } from '@reduxjs/toolkit/query';
 
 export function buscarFotos(idFamilia: string, category: string) {
   return async (dispatch: AppDispatch) => {
@@ -42,7 +43,7 @@ export function subirFoto(
   idFamilia: string,
   category: string,
 ) {
-  return async (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch, getState: any) => {
     try {
       dispatch(setCargando(true));
       await FotosService.subir(informacionDeFotoASubir, idFamilia, category);
