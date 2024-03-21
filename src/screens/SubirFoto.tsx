@@ -48,7 +48,6 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
     dispatch(subirFoto(imagenASubir, idFamilia, categoriaActual));
     dispatch(buscarFotos(idFamilia, categoriaActual));
     navigation.dispatch(popAction);
-    //navigation.navigate('FotosDeFamilia', {idFamilia: idFamilia, apellido: apellido});
   }
 
   useEffect(() => {
@@ -75,6 +74,7 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
               titulo="Elegir foto de galeria"
               onPress={() => agregarFotoDeGaleria()}
               style={styles.botonAbrirGaleria}
+              
             />
             <Boton
               titulo="Subir Foto"
@@ -91,6 +91,7 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
                 ]);
               }}
               style={styles.botonSubirFoto}
+              deshabilitar={!imagenASubir? true: false}
             />
           </View>
         </>
