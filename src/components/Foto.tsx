@@ -76,7 +76,7 @@ export function Foto({
               },
               {
                 text: 'Si',
-                onPress: () => onHandleEliminarFoto(_id),
+                onPress: async () => await onHandleEliminarFoto(_id),
               },
             ])
           }

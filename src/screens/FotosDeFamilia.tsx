@@ -45,10 +45,10 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
     }
   }
 
-  function handleEliminarFoto(id: string): void {
+  async function handleEliminarFoto(id: string): Promise<void> {
     const popAction = StackActions.pop(1);
 
-    dispatch(eliminarFoto(idFamilia, categoriaActual, id));
+    await dispatch(eliminarFoto(idFamilia, categoriaActual, id));
     navigation.dispatch(popAction);
     navigation.navigate('FotosDeFamilia', {idFamilia, apellido});
   }

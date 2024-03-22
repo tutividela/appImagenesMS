@@ -42,12 +42,13 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
     });
   }
 
-  function guardarFoto(): void {
+  async function guardarFoto(): Promise<void> {
     const popAction = StackActions.pop(2);
     
-    dispatch(subirFoto(imagenASubir, idFamilia, categoriaActual));
-    dispatch(buscarFotos(idFamilia, categoriaActual));
+    await dispatch(subirFoto(imagenASubir, idFamilia, categoriaActual));
+    await dispatch(buscarFotos(idFamilia, categoriaActual));
     navigation.dispatch(popAction);
+    navigation.navigate('FotosDeFamilia', {idFamilia, apellido});
   }
 
   useEffect(() => {
@@ -82,11 +83,10 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
                 Alert.alert('Advertencia', '¿Esta seguro de guardar la foto?', [
                   {
                     text: 'No',
-                    onPress: () => console.log('No se elimino la foto'),
                   },
                   {
                     text: 'Si',
-                    onPress: () => guardarFoto(),
+                    onPress: async () => await guardarFoto(),
                   },
                 ]);
               }}
