@@ -1,19 +1,45 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Animated,
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { Encuesta } from '../types/types';
-import React from 'react';
+import React, { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 type props = {
+  index: number;
+  scrollY: Animated.Value;
   familia: Encuesta;
   handleMagnify: Function;
 };
+const { height } = Dimensions.get('screen');
 
-export function Familia({ familia, handleMagnify }: props): React.JSX.Element {
+export function Familia({
+  index,
+  scrollY,
+  familia,
+  handleMagnify,
+}: props): React.JSX.Element {
   const { partido, provincia, barrio } = familia.encuestaUno.direccion;
+  const inputRange = [
+    -1,
+    0,
+    (height * 0.1 + 15) * index,
+    (height * 0.1 + 15) * (index + 3),
+  ];
+  const opacity = scrollY.interpolate({
+    inputRange,
+    outputRange: [1, 1, 1, 0],
+  });
+  
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={{ ...styles.container, opacity: opacity}}>
       <View>
         <Text style={styles.campo}>
           Familia: <Text style={styles.valor}>{familia.apellido}</Text>
@@ -36,7 +62,7 @@ export function Familia({ familia, handleMagnify }: props): React.JSX.Element {
       >
         <FontAwesomeIcon icon={faArrowRight} color="#00bfff" size={32} />
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 }
 

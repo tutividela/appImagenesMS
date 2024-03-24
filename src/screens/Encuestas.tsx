@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Encuesta } from '../types/types';
 import { Familia } from '../components/Familia';
 import React from 'react';
 import {
   ActivityIndicator,
+  Animated,
   FlatList,
   StyleSheet,
   Text,
@@ -13,9 +14,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faFilter, faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { ModalEncuestas } from '../components/ModalEncuestas';
-import {
-  setEncuestas,
-} from '../store/slices/encuestas/encuestasSlice';
+import { setEncuestas } from '../store/slices/encuestas/encuestasSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { buscarEntrevistas } from '../store/slices/encuestas/thunks';
 import { setCargando } from '../store/slices/custom/customSlice';
@@ -25,6 +24,8 @@ export function Encuestas({ navigation }: any): React.JSX.Element {
   const dispatch = useAppDispatch();
   const { encuestas } = useAppSelector(state => state.encuestas);
   const { cargando } = useAppSelector(state => state.custom);
+
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     dispatch(buscarEntrevistas());
@@ -76,9 +77,7 @@ export function Encuestas({ navigation }: any): React.JSX.Element {
         <TouchableOpacity onPress={() => dispatch(buscarEntrevistas())}>
           <FontAwesomeIcon icon={faRotateRight} color="#00bfff" size={30} />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => onHandleShowModal(true)}
-        >
+        <TouchableOpacity onPress={() => onHandleShowModal(true)}>
           <FontAwesomeIcon icon={faFilter} color="#00bfff" size={30} />
         </TouchableOpacity>
       </View>
@@ -91,14 +90,14 @@ export function Encuestas({ navigation }: any): React.JSX.Element {
         {cargando ? (
           <ActivityIndicator color="#00bfff" size={50} />
         ) : encuestas.length ? (
-          <FlatList
+          <Animated.FlatList
             data={encuestas}
-            renderItem={({ item }) => (
-              <Familia
-                familia={item}
-                key={item._id}
-                handleMagnify={onHandleMagnify}
-              />
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: true },
+            )}
+            renderItem={({ item, index }) => (
+              <Familia index={index} familia={item} handleMagnify={onHandleMagnify} scrollY={scrollY} />
             )}
             keyExtractor={(item: Encuesta) => item._id}
           />
