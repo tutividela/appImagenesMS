@@ -54,11 +54,7 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
               {
                 text: 'Si',
                 onPress: () => {
-                  Animated.timing(opacity, {
-                    toValue: 0,
-                    duration: 500,
-                    useNativeDriver: true,
-                  }).start();
+                  panX.setValue(0);
                   dispatch(setImagenASubir(null));
                 },
               },
