@@ -37,19 +37,18 @@ export function Foto({
   const { _id, imageName, latitude, longitude } = imagen;
   const { width } = Dimensions.get('screen');
 
-  const inputRange = [
-    -1,
-    0,
-    width  * index,
-    (width) * (index + 1),
-  ];
+  const inputRange = [-1, 0, width * index, width * (index + 1)];
   const opacity = scrollX.interpolate({
     inputRange: inputRange,
     outputRange: [1, 1, 1, 0],
   });
+  const scale = scrollX.interpolate({
+    inputRange,
+    outputRange: [1, 1, 1, 0.6],
+  });
 
   return (
-    <Animated.View style={{ ...styles.contenedor, opacity: opacity }}>
+    <Animated.View style={{ ...styles.contenedor, opacity: opacity, transform:[{scale: scale}] }}>
       <View style={styles.contenedorImagen}>
         <Animated.Image
           source={{
@@ -78,12 +77,11 @@ export function Foto({
         >
           <FontAwesomeIcon icon={faTrash} size={30} color="#b22222" />
         </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => onhandleUbicacionEnMapa(latitude, longitude)}
-        >
-          <FontAwesomeIcon icon={faLocationDot} size={30} color="#1e90ff" />
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => onhandleUbicacionEnMapa(latitude, longitude)}
+          >
+            <FontAwesomeIcon icon={faLocationDot} size={30} color="#1e90ff" />
+          </TouchableOpacity>
 
         <TouchableOpacity
           onPress={async () => await onHandleDescargarFoto(imageName, url)}
