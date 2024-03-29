@@ -17,13 +17,12 @@ import { ModalEncuestas } from '../components/ModalEncuestas';
 import { setEncuestas } from '../store/slices/encuestas/encuestasSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { buscarEntrevistas } from '../store/slices/encuestas/thunks';
-import { setCargando } from '../store/slices/custom/customSlice';
+import { setCargando, setShowModal } from '../store/slices/custom/customSlice';
 
 export function Encuestas({ navigation }: any): React.JSX.Element {
-  const [showModal, setShowModal] = useState(false);
   const dispatch = useAppDispatch();
   const { encuestas } = useAppSelector(state => state.encuestas);
-  const { cargando } = useAppSelector(state => state.custom);
+  const { cargando, showModal } = useAppSelector(state => state.custom);
 
   const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -39,7 +38,7 @@ export function Encuestas({ navigation }: any): React.JSX.Element {
   }
 
   function onHandleShowModal(valor: boolean): void {
-    setShowModal(valor);
+    dispatch(setShowModal(valor));
   }
   function onHandleFiltrarFamilias(encuesta: any): void {
     let encuestasFiltradas = encuestas;

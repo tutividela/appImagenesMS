@@ -1,13 +1,14 @@
 import {
   Animated,
   Dimensions,
+  LayoutChangeEvent,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { Encuesta } from '../types/types';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -25,21 +26,26 @@ export function Familia({
   familia,
   handleMagnify,
 }: props): React.JSX.Element {
+  const [altura, setAltura] = useState(0);
   const { partido, provincia, barrio } = familia.encuestaUno.direccion;
-  const inputRange = [
-    -1,
-    0,
-    (height * 0.1 + 15) * index,
-    (height * 0.1 + 15) * (index + 3),
-  ];
+  const inputRange = [-1, 0, altura * index, altura * (index + 1)];
+
   const opacity = scrollY.interpolate({
     inputRange,
-    outputRange: [1, 1, 1, 0],
+    outputRange: [1, 1, 1, 0.4],
   });
-  
+  const scale = scrollY.interpolate({
+    inputRange,
+    outputRange: [1, 1, 1, 0.9],
+  });
 
   return (
-    <Animated.View style={{ ...styles.container, opacity: opacity}}>
+    <Animated.View
+      style={{ ...styles.container, opacity: opacity, transform: [{scale: scale}] }}
+      onLayout={(event: LayoutChangeEvent) =>
+        setAltura(event.nativeEvent.layout.height)
+      }
+    >
       <View>
         <Text style={styles.campo}>
           Familia: <Text style={styles.valor}>{familia.apellido}</Text>
