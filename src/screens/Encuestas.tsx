@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Encuesta } from '../types/types';
 import { Familia } from '../components/Familia';
 import React from 'react';
 import {
   ActivityIndicator,
+  Animated,
   FlatList,
   StyleSheet,
   Text,
@@ -11,21 +12,19 @@ import {
   View,
 } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faFilter, faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { ModalEncuestas } from '../components/ModalEncuestas';
-import {
-  setCargandoEncuestas,
-  setEncuestas,
-} from '../store/slices/encuestas/encuestasSlice';
+import { setEncuestas } from '../store/slices/encuestas/encuestasSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { buscarEntrevistas } from '../store/slices/encuestas/thunks';
+import { setCargando, setShowModal } from '../store/slices/custom/customSlice';
 
 export function Encuestas({ navigation }: any): React.JSX.Element {
-  const [showModal, setShowModal] = useState(false);
   const dispatch = useAppDispatch();
-  const { cargandoEncuestas, encuestas } = useAppSelector(
-    state => state.encuestas,
-  );
+  const { encuestas } = useAppSelector(state => state.encuestas);
+  const { cargando, showModal } = useAppSelector(state => state.custom);
+
+  const scrollY = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     dispatch(buscarEntrevistas());
@@ -39,12 +38,12 @@ export function Encuestas({ navigation }: any): React.JSX.Element {
   }
 
   function onHandleShowModal(valor: boolean): void {
-    setShowModal(valor);
+    dispatch(setShowModal(valor));
   }
   function onHandleFiltrarFamilias(encuesta: any): void {
     let encuestasFiltradas = encuestas;
 
-    dispatch(setCargandoEncuestas(false));
+    dispatch(setCargando(true));
     if (encuesta.apellido) {
       encuestasFiltradas = encuestasFiltradas.filter(
         (encuestaFiltrada: Encuesta) =>
@@ -68,16 +67,16 @@ export function Encuestas({ navigation }: any): React.JSX.Element {
       );
     }
     dispatch(setEncuestas(encuestasFiltradas));
-    dispatch(setCargandoEncuestas(true));
+    dispatch(setCargando(false));
   }
 
   return (
     <View style={styles.contenedor}>
       <View style={styles.cabecera}>
-        <TouchableOpacity
-          onPress={() => onHandleShowModal(true)}
-          style={styles.icono}
-        >
+        <TouchableOpacity onPress={() => dispatch(buscarEntrevistas())}>
+          <FontAwesomeIcon icon={faRotateRight} color="#00bfff" size={30} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => onHandleShowModal(true)}>
           <FontAwesomeIcon icon={faFilter} color="#00bfff" size={30} />
         </TouchableOpacity>
       </View>
@@ -87,23 +86,23 @@ export function Encuestas({ navigation }: any): React.JSX.Element {
         handleFiltrarFamilias={onHandleFiltrarFamilias}
       />
       <View style={styles.cuerpo}>
-        {cargandoEncuestas ? (
+        {cargando ? (
           <ActivityIndicator color="#00bfff" size={50} />
         ) : encuestas.length ? (
-          <FlatList
+          <Animated.FlatList
             data={encuestas}
-            renderItem={({ item }) => (
-              <Familia
-                familia={item}
-                key={item._id}
-                handleMagnify={onHandleMagnify}
-              />
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: true },
+            )}
+            renderItem={({ item, index }) => (
+              <Familia index={index} familia={item} handleMagnify={onHandleMagnify} scrollY={scrollY} />
             )}
             keyExtractor={(item: Encuesta) => item._id}
           />
         ) : (
           <View style={styles.contenedorNoHayFotos}>
-            <Text style={styles.tituloNoHayFotos}>No hay fotos</Text>
+            <Text style={styles.tituloNoHayFotos}>No hay encuestas</Text>
           </View>
         )}
       </View>
@@ -118,7 +117,9 @@ const styles = StyleSheet.create({
   },
   cabecera: {
     flex: 1,
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     borderBottomWidth: 2,
     borderBottomColor: '#c0c0c0',
   },

@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import React from 'react';
+import { Boton } from './Boton';
 
 type props = {
   showModal: boolean;
@@ -61,7 +62,11 @@ export function ModalEncuestas({
           <FiltroEncuesta titulo="Barrio" handleOnChangeText={setBarrio} />
         </View>
         <View style={styles.contenedorBotones}>
-          <Button title="buscar" onPress={() => filtrarFamilias()} />
+          <Boton
+            titulo="Buscar"
+            onPress={() => filtrarFamilias()}
+            style={styles.boton}
+          />
         </View>
       </ScrollView>
     </Modal>
@@ -96,5 +101,9 @@ const styles = StyleSheet.create({
   contenedorBotones: {
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  boton: {
+    backgroundColor: '#00bfff',
+    borderRadius: 5,
   },
 });

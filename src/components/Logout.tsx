@@ -1,5 +1,5 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { storage } from '../utils/mmkv';
@@ -22,8 +22,15 @@ export function Logout(): JSX.Element {
     }
   };
 
+  function handleLogout(): void {
+    Alert.alert('Advertencia', '¿Esta seguro que quiere cerrar sesion?', [
+      { text: 'Si', onPress: async () => await signOut() },
+      { text: 'No',}
+    ]);
+  }
+
   return (
-    <TouchableOpacity onPress={signOut}>
+    <TouchableOpacity onPress={() => handleLogout()}>
       <FontAwesomeIcon icon={faSignOut} style={styles.logout} size={20} />
     </TouchableOpacity>
   );

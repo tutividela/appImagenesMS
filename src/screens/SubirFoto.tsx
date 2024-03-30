@@ -5,9 +5,14 @@ import {
   Image,
   ActivityIndicator,
   Text,
+  Animated,
+  PanResponder,
+  GestureResponderEvent,
+  PanResponderGestureState,
+  Dimensions,
 } from 'react-native';
 import { Boton } from '../components/Boton';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -23,6 +28,58 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
   const idFamilia = route.params.idFamilia as string;
   const apellido = route.params.apellido as string;
   const dispatch = useAppDispatch();
+  const panX = useRef(new Animated.Value(0)).current;
+  const opacity = useRef(new Animated.Value(1)).current;
+  const { width } = Dimensions.get('screen');
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderMove: (
+        e: GestureResponderEvent,
+        gestureState: PanResponderGestureState,
+      ) => {
+        Animated.event([null, { dx: panX }], { useNativeDriver: true });
+        panX.setValue(gestureState.dx);
+      },
+      onPanResponderRelease: (
+        e: GestureResponderEvent,
+        gestureState: PanResponderGestureState,
+      ) => {
+        if (gestureState.dx >= width / 3) {
+          Alert.alert(
+            'Advertencia',
+            '¿Esta seguro que quiere descartar la foto a subir?',
+            [
+              {
+                text: 'Si',
+                onPress: () => {
+                  panX.setValue(0);
+                  dispatch(setImagenASubir(null));
+                },
+              },
+              {
+                text: 'No',
+                onPress: () => {
+                  Animated.timing(panX, {
+                    toValue: 0,
+                    duration: 500,
+                    useNativeDriver: true,
+                  }).start();
+                },
+              },
+            ],
+          );
+        } else {
+          Animated.timing(panX, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true,
+          }).start();
+        }
+      },
+    }),
+  ).current;
 
   function agregarFotoDeGaleria(): void {
     ImagePicker.openPicker({
@@ -42,13 +99,13 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
     });
   }
 
-  function guardarFoto(): void {
+  async function guardarFoto(): Promise<void> {
     const popAction = StackActions.pop(2);
-    
-    dispatch(subirFoto(imagenASubir, idFamilia, categoriaActual));
-    dispatch(buscarFotos(idFamilia, categoriaActual));
+
+    await dispatch(subirFoto(imagenASubir, idFamilia, categoriaActual));
+    await dispatch(buscarFotos(idFamilia, categoriaActual));
     navigation.dispatch(popAction);
-    //navigation.navigate('FotosDeFamilia', {idFamilia: idFamilia, apellido: apellido});
+    navigation.navigate('FotosDeFamilia', { idFamilia, apellido });
   }
 
   useEffect(() => {
@@ -61,14 +118,23 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
         <>
           <View style={styles.contenedorFoto}>
             {imagenASubir ? (
-              <Image source={{ uri: imagenASubir.uri }} style={styles.foto} />
+              <Animated.Image
+                source={{ uri: imagenASubir.uri }}
+                style={{
+                  ...styles.foto,
+                  opacity: opacity,
+                  transform: [{ translateX: panX }],
+                }}
+                {...panResponder.panHandlers}
+              />
             ) : (
               <Image
                 source={require('../public/fotoVacia.jpg')}
-                style={styles.foto}
+                style={{
+                  ...styles.foto,
+                }}
               />
             )}
-            <FontAwesomeIcon icon={faCircleXmark} size={50} />
           </View>
           <View style={styles.contenedorBotones}>
             <Boton
@@ -82,15 +148,15 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
                 Alert.alert('Advertencia', '¿Esta seguro de guardar la foto?', [
                   {
                     text: 'No',
-                    onPress: () => console.log('No se elimino la foto'),
                   },
                   {
                     text: 'Si',
-                    onPress: () => guardarFoto(),
+                    onPress: async () => await guardarFoto(),
                   },
                 ]);
               }}
               style={styles.botonSubirFoto}
+              deshabilitar={!imagenASubir ? true : false}
             />
           </View>
         </>

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
   ActivityIndicator,
   Alert,
+  Animated,
   FlatList,
   StyleSheet,
   Text,
@@ -14,7 +15,7 @@ import { Boton } from '../components/Boton';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { setCargando, setShowModal } from '../store/slices/custom/customSlice';
 import { ModalCategorias } from '../components/ModalCategorias';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { buscarFotos, eliminarFoto } from '../store/slices/fotos/thunks';
 import { obtenerPermisos } from '../utils/descargarFoto';
 import { StackActions } from '@react-navigation/native';
@@ -25,6 +26,7 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
   const { imagenes } = useAppSelector(state => state.fotos);
   const dispatch = useAppDispatch();
   const urlImagenes: string = `https://backend-appsmoviles.onrender.com/images/${idFamilia}/`;
+  const scrollX = useRef(new Animated.Value(0)).current;
 
   function handleShowModal() {
     dispatch(setShowModal(true));
@@ -45,10 +47,10 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
     }
   }
 
-  function handleEliminarFoto(id: string): void {
+  async function handleEliminarFoto(id: string): Promise<void> {
     const popAction = StackActions.pop(1);
 
-    dispatch(eliminarFoto(idFamilia, categoriaActual, id));
+    await dispatch(eliminarFoto(idFamilia, categoriaActual, id));
     navigation.dispatch(popAction);
     navigation.navigate('FotosDeFamilia', {idFamilia, apellido});
   }
@@ -95,10 +97,12 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
         {cargando ? (
           <ActivityIndicator color="#00bfff" size={50} />
         ) : imagenes.length ? (
-          <FlatList
+          <Animated.FlatList
             data={imagenes}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <Foto
+                index={index}
+                scrollX={scrollX}
                 imagen={item}
                 url={`${urlImagenes}${item.imageName}`}
                 onhandleUbicacionEnMapa={handleUbicacionEnMapa}
@@ -107,6 +111,10 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
               />
             )}
             horizontal={true}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+              { useNativeDriver: true }
+            )}
           />
         ) : (
           <View style={styles.contenedorNoHayFotos}>
