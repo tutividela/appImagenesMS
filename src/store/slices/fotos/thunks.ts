@@ -2,7 +2,7 @@ import { Alert } from 'react-native';
 import FotosService from '../../../services/fotosService';
 import { AppDispatch } from '../../store';
 import { setCargando } from '../custom/customSlice';
-import { setFotos } from './fotosSlice';
+import { setFotos, setTodasImagenes } from './fotosSlice';
 import { RootState } from '@reduxjs/toolkit/query';
 
 export function buscarFotos(idFamilia: string, category: string) {
@@ -11,6 +11,20 @@ export function buscarFotos(idFamilia: string, category: string) {
       dispatch(setCargando(true));
       const encuestas = await FotosService.buscarPor(idFamilia, category);
       dispatch(setFotos(encuestas));
+    } catch (error: any) {
+      console.log("Error en buscarFotos: ", error);
+      dispatch(setCargando(false));
+      return;
+    }
+    dispatch(setCargando(false));
+  };
+}
+export function buscarTodos(idFamilia: string) {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch(setCargando(true));
+      const imagenes = await FotosService.buscarTodos(idFamilia);
+      dispatch(setTodasImagenes(imagenes));
     } catch (error: any) {
       dispatch(setCargando(false));
       return;
