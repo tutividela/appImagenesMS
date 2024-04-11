@@ -16,13 +16,21 @@ namespace FotosService {
     return fotos[category];
 
   }
-  export async function buscarTodos(idFamilia: string): Promise<InformacionDeFotos> {
+  export async function buscarTodosDeEncuesta(idFamilia: string): Promise<InformacionDeFotos> {
     const response = await fetch(`${url}${idFamilia}`, {
       headers: { idtoken },
     });
     const fotos = await response.json() as InformacionDeFotos;
     
     return fotos;
+  }
+  export async function buscarTodos(): Promise<InformacionDeFotos[]> {
+    const response = await fetch(`${url}`, {
+      headers: {idtoken},
+    });
+    const todasLasFotos = await response.json() as InformacionDeFotos[];
+
+    return todasLasFotos;
   }
 
   export async function eliminar(
