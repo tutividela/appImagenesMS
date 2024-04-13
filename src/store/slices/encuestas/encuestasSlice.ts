@@ -1,14 +1,19 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { Encuesta } from '../../../types/types';
 
-const initialState = {
-  encuestas: [],
+type CustomSliceState = {
+  encuestas: Encuesta[];
+}
+
+const initialState: CustomSliceState = {
+  encuestas: [] as Encuesta[],
 };
 
 export const encuestasSlice = createSlice({
   name: 'encuestas',
   initialState: initialState,
   reducers: {
-    setEncuestas: (state, action: PayloadAction<any>) => {
+    setEncuestas: (state, action: PayloadAction<Encuesta[]>) => {
       state.encuestas = action.payload;
     },
   },

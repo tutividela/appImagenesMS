@@ -30,3 +30,18 @@ export const categorias: string[] = [
   'PostCC_cartaDonacion',
   'PostCC_cartaCesionImagen',
 ];
+
+export type InformacionDeFotos = {
+  _id: string;
+  familyId: string;
+  PreCC_croquisE1: Imagen[];
+  PreCC_delanteCasa: Imagen[];
+  PreCC_bano: Imagen[];
+  PreCC_contratoAsignacion: Imagen[];
+  PreCC_fichaInspeccionPozos: Imagen[];
+  PostCC_modulo: Imagen[];
+  PostCC_familiaDentro: Imagen[];
+  PostCC_higienizacion: Imagen[];
+  PostCC_cartaDonacion: Imagen[];
+  PostCC_cartaCesionImagen: Imagen[];
+};
