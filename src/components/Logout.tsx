@@ -11,10 +11,7 @@ export function Logout(): JSX.Element {
   const signOut = async () => {
     try {
       await GoogleSignin.signOut();
-
-      storage.removeItem('usuario');
-      storage.removeItem('urlFoto');
-      storage.removeItem('idtoken');
+      storage.clearAll();
       console.log('Usuario se deslogueo');
       setEstaLogueado(false);
     } catch (error) {
