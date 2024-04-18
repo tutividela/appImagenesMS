@@ -1,17 +1,25 @@
 import { Alert } from 'react-native';
 import FotosService from '../../../services/fotosService';
-import { AppDispatch } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import { setCargando } from '../custom/customSlice';
-import { setFotos, setTodasImagenesDeEncuesta, setTodasImagenesDeTodasEncuesta } from './fotosSlice';
+import {
+  setFotos,
+  setTodasImagenesDeEncuesta,
+  setTodasImagenesDeTodasEncuesta,
+} from './fotosSlice';
 
-export function buscarFotos(idFamilia: string, category: string) {
-  return async (dispatch: AppDispatch) => {
+export function buscarFotos(idFamilia: string) {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
+      const { categoriaActual } = getState().custom;
       dispatch(setCargando(true));
-      const encuestas = await FotosService.buscarPor(idFamilia, category);
+      const encuestas = await FotosService.buscarPor(
+        idFamilia,
+        categoriaActual,
+      );
       dispatch(setFotos(encuestas));
     } catch (error: any) {
-      console.log("Error en buscarFotos: ", error);
+      console.log('Error en buscarFotos: ', error);
       dispatch(setCargando(false));
       return;
     }
@@ -19,7 +27,7 @@ export function buscarFotos(idFamilia: string, category: string) {
   };
 }
 export function buscarTodosDeEncuesta(idFamilia: string) {
-  return async (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
       dispatch(setCargando(true));
       const imagenes = await FotosService.buscarTodosDeEncuesta(idFamilia);
@@ -33,7 +41,7 @@ export function buscarTodosDeEncuesta(idFamilia: string) {
 }
 
 export function buscarTodos() {
-  return async (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
       dispatch(setCargando(true));
       const imagenes = await FotosService.buscarTodos();
@@ -46,15 +54,12 @@ export function buscarTodos() {
   };
 }
 
-export function eliminarFoto(
-  idFamilia: string,
-  category: string,
-  idFoto: string,
-) {
-  return async (dispatch: AppDispatch) => {
+export function eliminarFoto(idFamilia: string, idFoto: string) {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
+      const { categoriaActual } = getState().custom;
       dispatch(setCargando(true));
-      await FotosService.eliminar(idFamilia, category, idFoto);
+      await FotosService.eliminar(idFamilia, categoriaActual, idFoto);
       Alert.alert('Exito', 'La foto se ha eliminado exitosamente');
     } catch (error: any) {
       dispatch(setCargando(false));
@@ -65,15 +70,16 @@ export function eliminarFoto(
   };
 }
 
-export function subirFoto(
-  informacionDeFotoASubir: any,
-  idFamilia: string,
-  category: string,
-) {
-  return async (dispatch: AppDispatch, getState: any) => {
+export function subirFoto(informacionDeFotoASubir: any, idFamilia: string) {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
+      const { categoriaActual } = getState().custom;
       dispatch(setCargando(true));
-      await FotosService.subir(informacionDeFotoASubir, idFamilia, category);
+      await FotosService.subir(
+        informacionDeFotoASubir,
+        idFamilia,
+        categoriaActual,
+      );
       Alert.alert('Exito', 'La foto se ha subido exitosamente');
     } catch (error: any) {
       dispatch(setCargando(false));

@@ -22,7 +22,7 @@ export function Logout(): JSX.Element {
   function handleLogout(): void {
     Alert.alert('Advertencia', '¿Esta seguro que quiere cerrar sesion?', [
       { text: 'Si', onPress: async () => await signOut() },
-      { text: 'No',}
+      { text: 'No' },
     ]);
   }
 

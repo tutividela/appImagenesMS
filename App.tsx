@@ -55,7 +55,7 @@ function App(): React.JSX.Element {
                   }}
                 />
                 <Stack.Screen
-                  name='SubirFoto'
+                  name="SubirFoto"
                   component={SubirFoto}
                   options={{
                     headerTitle: () => <Usuario />,

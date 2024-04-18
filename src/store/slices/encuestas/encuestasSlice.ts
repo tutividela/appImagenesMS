@@ -3,7 +3,7 @@ import { Encuesta } from '../../../types/types';
 
 type CustomSliceState = {
   encuestas: Encuesta[];
-}
+};
 
 const initialState: CustomSliceState = {
   encuestas: [] as Encuesta[],

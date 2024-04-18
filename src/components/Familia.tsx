@@ -1,6 +1,5 @@
 import {
   Animated,
-  Dimensions,
   LayoutChangeEvent,
   StyleSheet,
   Text,
@@ -8,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import { Encuesta } from '../types/types';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,7 +17,6 @@ type props = {
   familia: Encuesta;
   handleMagnify: Function;
 };
-const { height } = Dimensions.get('screen');
 
 export function Familia({
   index,
@@ -41,7 +39,11 @@ export function Familia({
 
   return (
     <Animated.View
-      style={{ ...styles.container, opacity: opacity, transform: [{scale: scale}] }}
+      style={{
+        ...styles.container,
+        opacity: opacity,
+        transform: [{ scale: scale }],
+      }}
       onLayout={(event: LayoutChangeEvent) =>
         setAltura(event.nativeEvent.layout.height)
       }

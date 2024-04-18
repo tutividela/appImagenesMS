@@ -4,7 +4,6 @@ import {
   ActivityIndicator,
   Alert,
   Animated,
-  FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -50,9 +49,9 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
   async function handleEliminarFoto(id: string): Promise<void> {
     const popAction = StackActions.pop(1);
 
-    await dispatch(eliminarFoto(idFamilia, categoriaActual, id));
+    await dispatch(eliminarFoto(idFamilia, id));
     navigation.dispatch(popAction);
-    navigation.navigate('FotosDeFamilia', {idFamilia, apellido});
+    navigation.navigate('FotosDeFamilia', { idFamilia, apellido });
   }
 
   async function handleDescargarFoto(
@@ -65,15 +64,18 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
   }
 
   function handleSubirFoto(): void {
-    navigation.navigate('SubirFoto', { idFamilia: idFamilia, apellido: apellido });
+    navigation.navigate('SubirFoto', {
+      idFamilia: idFamilia,
+      apellido: apellido,
+    });
   }
 
   useEffect(() => {
-    dispatch(buscarFotos(idFamilia, categoriaActual));
+    dispatch(buscarFotos(idFamilia));
   }, [categoriaActual]);
 
   useEffect(() => {
-    dispatch(buscarFotos(idFamilia, categoriaActual));
+    dispatch(buscarFotos(idFamilia));
   }, []);
 
   return (
@@ -113,7 +115,7 @@ export function FotosDeFamilia({ navigation, route }: any): JSX.Element {
             horizontal={true}
             onScroll={Animated.event(
               [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-              { useNativeDriver: true }
+              { useNativeDriver: true },
             )}
           />
         ) : (

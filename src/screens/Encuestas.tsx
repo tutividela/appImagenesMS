@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Encuesta } from '../types/types';
 import { Familia } from '../components/Familia';
 import React from 'react';
 import {
   ActivityIndicator,
   Animated,
-  FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -96,7 +95,12 @@ export function Encuestas({ navigation }: any): React.JSX.Element {
               { useNativeDriver: true },
             )}
             renderItem={({ item, index }) => (
-              <Familia index={index} familia={item} handleMagnify={onHandleMagnify} scrollY={scrollY} />
+              <Familia
+                index={index}
+                familia={item}
+                handleMagnify={onHandleMagnify}
+                scrollY={scrollY}
+              />
             )}
             keyExtractor={(item: Encuesta) => item._id}
           />

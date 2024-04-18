@@ -4,7 +4,6 @@ import {
   View,
   Image,
   ActivityIndicator,
-  Text,
   Animated,
   PanResponder,
   GestureResponderEvent,
@@ -12,9 +11,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { Boton } from '../components/Boton';
-import { useEffect, useRef, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useRef } from 'react';
 import ImagePicker from 'react-native-image-crop-picker';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { buscarFotos, subirFoto } from '../store/slices/fotos/thunks';
@@ -23,7 +20,6 @@ import { StackActions } from '@react-navigation/native';
 
 export function SubirFoto({ navigation, route }: any): JSX.Element {
   const { imagenASubir } = useAppSelector(state => state.fotos);
-  const { categoriaActual } = useAppSelector(state => state.custom);
   const { cargando } = useAppSelector(state => state.custom);
   const idFamilia = route.params.idFamilia as string;
   const apellido = route.params.apellido as string;
@@ -102,8 +98,8 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
   async function guardarFoto(): Promise<void> {
     const popAction = StackActions.pop(2);
 
-    await dispatch(subirFoto(imagenASubir, idFamilia, categoriaActual));
-    await dispatch(buscarFotos(idFamilia, categoriaActual));
+    await dispatch(subirFoto(imagenASubir, idFamilia));
+    await dispatch(buscarFotos(idFamilia));
     navigation.dispatch(popAction);
     navigation.navigate('FotosDeFamilia', { idFamilia, apellido });
   }

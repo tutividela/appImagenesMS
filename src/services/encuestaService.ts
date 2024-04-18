@@ -2,7 +2,7 @@ import { Encuesta } from '../types/types';
 import { storage } from '../utils/mmkv';
 
 const url = 'https://backend-appsmoviles.onrender.com/encuestas';
-const idtoken = storage.getString('idtoken');
+const idtoken = storage.getString('idtoken') || '';
 
 namespace EncuestaService {
   export async function buscarTodas(): Promise<any> {

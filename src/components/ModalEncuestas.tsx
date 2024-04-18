@@ -1,11 +1,4 @@
-import {
-  Button,
-  Modal,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { FiltroEncuesta } from './FiltroEncuesta';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';

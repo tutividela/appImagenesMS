@@ -4,7 +4,6 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { useEffect, useRef } from 'react';
 import {
   Alert,
   Dimensions,
@@ -48,7 +47,13 @@ export function Foto({
   });
 
   return (
-    <Animated.View style={{ ...styles.contenedor, opacity: opacity, transform:[{scale: scale}] }}>
+    <Animated.View
+      style={{
+        ...styles.contenedor,
+        opacity: opacity,
+        transform: [{ scale: scale }],
+      }}
+    >
       <View style={styles.contenedorImagen}>
         <Animated.Image
           source={{
@@ -77,11 +82,11 @@ export function Foto({
         >
           <FontAwesomeIcon icon={faTrash} size={30} color="#b22222" />
         </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => onhandleUbicacionEnMapa(latitude, longitude)}
-          >
-            <FontAwesomeIcon icon={faLocationDot} size={30} color="#1e90ff" />
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => onhandleUbicacionEnMapa(latitude, longitude)}
+        >
+          <FontAwesomeIcon icon={faLocationDot} size={30} color="#1e90ff" />
+        </TouchableOpacity>
 
         <TouchableOpacity
           onPress={async () => await onHandleDescargarFoto(imageName, url)}
