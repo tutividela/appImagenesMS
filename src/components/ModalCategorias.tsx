@@ -1,6 +1,6 @@
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Modal, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { setShowModal } from '../store/slices/custom/customSlice';
 import { categorias } from '../types/types';
@@ -22,12 +22,12 @@ export function ModalCategorias(): JSX.Element {
       onRequestClose={() => handleCloseModal()}
     >
       <ScrollView style={styles.contenedorModal}>
-        <Pressable
+        <TouchableOpacity
           onPress={() => handleCloseModal()}
           style={styles.iconoCerrar}
         >
           <FontAwesomeIcon icon={faClose} size={23} />
-        </Pressable>
+        </TouchableOpacity>
         <View style={styles.contenedorCategorias}>
           <ScrollView>
             {categorias.map((categoria: string, index: number) => (
