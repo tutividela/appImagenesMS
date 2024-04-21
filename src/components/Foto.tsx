@@ -5,14 +5,18 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
+  ActivityIndicator,
   Alert,
   Dimensions,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { Animated } from 'react-native';
 import { Imagen } from '../types/types';
+import { useState } from 'react';
+import { IndicadorCargando } from './IndicadorCargando';
 
 type props = {
   index: number;
@@ -35,6 +39,7 @@ export function Foto({
 }: props): JSX.Element {
   const { _id, imageName, latitude, longitude } = imagen;
   const { width } = Dimensions.get('screen');
+  const [cargandoFoto, setCargandoFoto] = useState<boolean>(true);
 
   const inputRange = [-1, 0, width * index, width * (index + 1)];
   const opacity = scrollX.interpolate({
@@ -55,6 +60,14 @@ export function Foto({
       }}
     >
       <View style={styles.contenedorImagen}>
+        <IndicadorCargando
+          color="#00bfff"
+          tamanioIcono={32}
+          cargando={cargandoFoto}
+        >
+          <Text>Cargando la foto...</Text>
+          <Text>Por favor espere...</Text>
+        </IndicadorCargando>
         <Animated.Image
           source={{
             uri: url,
@@ -63,6 +76,7 @@ export function Foto({
             height: 300,
             width: 300,
           }}
+          onLoadEnd={() => setCargandoFoto(false)}
         />
       </View>
       <Animated.View style={{ ...styles.contenedorIconos }}>

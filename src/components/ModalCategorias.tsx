@@ -1,6 +1,13 @@
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { Modal, Pressable, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Modal,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { setShowModal } from '../store/slices/custom/customSlice';
 import { categorias } from '../types/types';

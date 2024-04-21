@@ -9,6 +9,7 @@ import {
   GestureResponderEvent,
   PanResponderGestureState,
   Dimensions,
+  Text,
 } from 'react-native';
 import { Boton } from '../components/Boton';
 import { useEffect, useRef } from 'react';
@@ -17,6 +18,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { buscarFotos, subirFoto } from '../store/slices/fotos/thunks';
 import { setImagenASubir } from '../store/slices/fotos/fotosSlice';
 import { StackActions } from '@react-navigation/native';
+import { IndicadorCargando } from '../components/IndicadorCargando';
 
 export function SubirFoto({ navigation, route }: any): JSX.Element {
   const { imagenASubir } = useAppSelector(state => state.fotos);
@@ -158,7 +160,15 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
         </>
       ) : (
         <View style={styles.contenedorCargando}>
-          <ActivityIndicator color="#00bfff" size={50} />
+          <IndicadorCargando
+            color="#00bfff"
+            tamanioIcono={50}
+            cargando={cargando}
+          >
+            <Text style={{ fontSize: 18 }}>Subiendo la foto...</Text>
+            <Text style={{ fontSize: 18 }}>Este proceso puede demorar</Text>
+            <Text style={{ fontSize: 18 }}>Por favor espere...</Text>
+          </IndicadorCargando>
         </View>
       )}
     </View>
@@ -172,6 +182,7 @@ const styles = StyleSheet.create({
   },
   contenedorCargando: {
     flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
   },
   contenedorFoto: {
