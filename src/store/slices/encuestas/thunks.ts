@@ -1,10 +1,10 @@
 import EncuestaService from '../../../services/encuestaService';
-import { AppDispatch } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import { setCargando } from '../custom/customSlice';
 import { setEncuestas } from './encuestasSlice';
 
 export function buscarEntrevistas() {
-  return async (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
       dispatch(setCargando(true));
       const encuestas = await EncuestaService.buscarTodas();

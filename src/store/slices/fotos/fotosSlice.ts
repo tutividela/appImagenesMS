@@ -6,7 +6,7 @@ type FotoSliceState = {
   imagenASubir: any;
   todasImagenesDeEncuesta: InformacionDeFotos | null;
   todasImagenesDeTodasEncuesta: InformacionDeFotos[] | null;
-}
+};
 
 const initialState: FotoSliceState = {
   imagenes: [] as Imagen[],
@@ -25,14 +25,25 @@ export const fotosSlice = createSlice({
     setImagenASubir: (state, action: PayloadAction<any>) => {
       state.imagenASubir = action.payload;
     },
-    setTodasImagenesDeEncuesta: (state, action: PayloadAction<InformacionDeFotos>) => {
+    setTodasImagenesDeEncuesta: (
+      state,
+      action: PayloadAction<InformacionDeFotos>,
+    ) => {
       state.todasImagenesDeEncuesta = action.payload;
     },
-    setTodasImagenesDeTodasEncuesta: (state, action: PayloadAction<InformacionDeFotos[]>) => {
+    setTodasImagenesDeTodasEncuesta: (
+      state,
+      action: PayloadAction<InformacionDeFotos[]>,
+    ) => {
       state.todasImagenesDeTodasEncuesta = action.payload;
     },
   },
 });
 
-export const { setFotos, setImagenASubir, setTodasImagenesDeEncuesta, setTodasImagenesDeTodasEncuesta } = fotosSlice.actions;
+export const {
+  setFotos,
+  setImagenASubir,
+  setTodasImagenesDeEncuesta,
+  setTodasImagenesDeTodasEncuesta,
+} = fotosSlice.actions;
 export default fotosSlice.reducer;

@@ -1,7 +1,10 @@
 import { Alert, PermissionsAndroid, Platform } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
-export async function obtenerPermisos(nombre: string, urlFoto: string): Promise<void> {
+export async function obtenerPermisos(
+  nombre: string,
+  urlFoto: string,
+): Promise<void> {
   if (Platform.OS === 'ios') {
     descargar(nombre, urlFoto);
   } else {
@@ -57,8 +60,4 @@ function descargar(nombreConExtension: string, urlFoto: string): void {
     .catch(error => {
       console.log('Error en RNFetchblog.config: ', error);
     });
-}
-
-function obtenerExtension(nombre: string): string {
-    return nombre.split('.')[1];
 }

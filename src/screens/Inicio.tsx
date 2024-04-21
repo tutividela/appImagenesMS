@@ -24,9 +24,9 @@ export function Inicio(): JSX.Element {
         idToken,
       } = await GoogleSignin.signIn();
 
-      storage.setString('idtoken', idToken!);
-      storage.setString('usuario', name!);
-      storage.setString('urlFoto', photo!);
+      storage.set('idtoken', idToken!);
+      storage.set('usuario', name!);
+      storage.set('urlFoto', photo!);
       console.log(idToken);
       setEstaLogueado(true);
     } catch (error: any) {

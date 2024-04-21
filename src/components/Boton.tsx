@@ -18,7 +18,11 @@ export function Boton({
   deshabilitar,
 }: props): JSX.Element {
   return (
-    <TouchableOpacity onPress={() => onPress()} style={style} disabled={deshabilitar}>
+    <TouchableOpacity
+      onPress={() => onPress()}
+      style={style}
+      disabled={deshabilitar}
+    >
       <View style={styles.contenedor}>
         <Text style={styles.texto}>{titulo}</Text>
         {nombreDeIcono && (

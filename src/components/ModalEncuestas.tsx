@@ -1,9 +1,9 @@
 import {
-  Button,
   Modal,
   Pressable,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { FiltroEncuesta } from './FiltroEncuesta';
@@ -46,12 +46,12 @@ export function ModalEncuestas({
       onRequestClose={() => handleShowModal(false)}
     >
       <ScrollView style={styles.contenedorModal}>
-        <Pressable
+        <TouchableOpacity
           onPress={() => handleShowModal(false)}
           style={styles.iconoCerrar}
         >
           <FontAwesomeIcon icon={faClose} size={23} />
-        </Pressable>
+        </TouchableOpacity>
         <View style={styles.contenedorFiltros}>
           <FiltroEncuesta titulo="Apellido" handleOnChangeText={setApellido} />
           <FiltroEncuesta

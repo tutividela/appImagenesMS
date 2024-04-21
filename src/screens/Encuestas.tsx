@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Encuesta } from '../types/types';
 import { Familia } from '../components/Familia';
 import React from 'react';
 import {
   ActivityIndicator,
   Animated,
-  FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -18,6 +17,7 @@ import { setEncuestas } from '../store/slices/encuestas/encuestasSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { buscarEntrevistas } from '../store/slices/encuestas/thunks';
 import { setCargando, setShowModal } from '../store/slices/custom/customSlice';
+import { IndicadorCargando } from '../components/IndicadorCargando';
 
 export function Encuestas({ navigation }: any): React.JSX.Element {
   const dispatch = useAppDispatch();
@@ -87,7 +87,10 @@ export function Encuestas({ navigation }: any): React.JSX.Element {
       />
       <View style={styles.cuerpo}>
         {cargando ? (
-          <ActivityIndicator color="#00bfff" size={50} />
+          <IndicadorCargando color="#00bfff" tamanioIcono={50} cargando={true}>
+            <Text style={{ fontSize: 18 }}>Cargando encuestas</Text>
+            <Text style={{ fontSize: 18 }}>Por favor espere...</Text>
+          </IndicadorCargando>
         ) : encuestas.length ? (
           <Animated.FlatList
             data={encuestas}
@@ -96,7 +99,12 @@ export function Encuestas({ navigation }: any): React.JSX.Element {
               { useNativeDriver: true },
             )}
             renderItem={({ item, index }) => (
-              <Familia index={index} familia={item} handleMagnify={onHandleMagnify} scrollY={scrollY} />
+              <Familia
+                index={index}
+                familia={item}
+                handleMagnify={onHandleMagnify}
+                scrollY={scrollY}
+              />
             )}
             keyExtractor={(item: Encuesta) => item._id}
           />
