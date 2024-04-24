@@ -11,6 +11,7 @@ namespace EncuestaService {
       return (await response.json()) as Encuesta[];
     } catch (error: any) {
       console.log('Error en EncuestaService.buscarTodas: ', error);
+      throw error;
     }
   }
 }

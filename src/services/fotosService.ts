@@ -13,7 +13,7 @@ namespace FotosService {
       headers: { idtoken, category },
     });
     const fotos = await response.json();
-    return fotos[category];
+    return fotos[category] ? fotos[category] : [];
   }
   export async function buscarTodosDeEncuesta(
     idFamilia: string,
@@ -46,6 +46,7 @@ namespace FotosService {
       });
     } catch (error: any) {
       console.log('Error en FotosService.eliminar: ', error);
+      throw error;
     }
   }
   export async function subir(
@@ -74,6 +75,7 @@ namespace FotosService {
       });
     } catch (error: any) {
       console.log('Error en FotosService.subir: ', error);
+      throw error;
     }
   }
 }
