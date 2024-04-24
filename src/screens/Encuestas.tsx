@@ -42,29 +42,33 @@ export function Encuestas({ navigation }: any): React.JSX.Element {
   }
   function onHandleFiltrarFamilias(encuesta: any): void {
     let encuestasFiltradas = encuestas;
+    console.log(encuesta);
 
     dispatch(setCargando(true));
-    if (encuesta.apellido) {
+    if (encuesta.apellido.length > 0) {
       encuestasFiltradas = encuestasFiltradas.filter(
         (encuestaFiltrada: Encuesta) =>
           encuestaFiltrada.apellido === encuesta.apellido,
       );
-    } else if (encuesta.provincia) {
+    }
+    if (encuesta.provincia.length > 0) {
       encuestasFiltradas = encuestasFiltradas.filter(
         (encuestaFiltrada: Encuesta) =>
           encuestaFiltrada.encuestaUno.direccion.provincia ===
           encuesta.provincia,
       );
-    } else if (encuesta.partido) {
+    }
+    if (encuesta.partido.length > 0) {
       encuestasFiltradas = encuestasFiltradas.filter(
         (encuestaFiltrada: Encuesta) =>
           encuestaFiltrada.encuestaUno.direccion.partido === encuesta.partido,
       );
-    } else if (encuesta.barrio) {
+    }
+    if (encuesta.barrio.length > 0) {
       encuestasFiltradas = encuestasFiltradas.filter(
         (encuestaFiltrada: Encuesta) =>
           encuestaFiltrada.encuestaUno.direccion.barrio === encuesta.barrio,
-      );
+      ); 
     }
     dispatch(setEncuestas(encuestasFiltradas));
     dispatch(setCargando(false));
