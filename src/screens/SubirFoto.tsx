@@ -33,11 +33,17 @@ export function SubirFoto({ navigation, route }: any): JSX.Element {
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderMove: (
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderGrant: (
         e: GestureResponderEvent,
         gestureState: PanResponderGestureState,
       ) => {
         Animated.event([null, { dx: panX }], { useNativeDriver: true });
+      },
+      onPanResponderMove: (
+        e: GestureResponderEvent,
+        gestureState: PanResponderGestureState,
+      ) => {
         panX.setValue(gestureState.dx);
       },
       onPanResponderRelease: (
